@@ -1,17 +1,18 @@
-# 胖譜小精靈
+# prompt_fairy｜胖譜小精靈
 
-胖譜小精靈是一個 local-first 的 AI 圖像 prompt 整理、置換與版本管理工具。  
-目前 repo 內保留兩個版本，方便共同開發與比較。
+胖譜小精靈是一個 local-first 的 AI 圖像 prompt 整理、置換與版本管理工具。
 
-## 版本
+目前 repo 內保留兩個版本，方便共同開發與比較：
 
 - 穩定版：根目錄 `index.html`
 - 規則引擎實驗版：`_experiments/local-rule-engine/index.html`
 
+## 部署後網址
+
 如果部署到 GitHub Pages：
 
-- 穩定版網址：`https://<你的帳號>.github.io/<repo>/`
-- 規則引擎實驗版網址：`https://<你的帳號>.github.io/<repo>/_experiments/local-rule-engine/`
+- 穩定版：`https://ciaooyi0423.github.io/prompt_fairy/`
+- 規則引擎實驗版：`https://ciaooyi0423.github.io/prompt_fairy/_experiments/local-rule-engine/`
 
 ## 本機開發
 
@@ -48,7 +49,7 @@ node scripts/local-server.js
 ## 共同開發建議
 
 - `main` 放穩定版。
-- `experiment/local-rule-engine` 放規則引擎實驗。
+- `_experiments/local-rule-engine` 放規則引擎實驗版。
 - 穩定版里程碑可打 tag，例如 `v1.0-v8`。
 - 新功能先開 feature branch，確認不破壞穩定版後再合併。
 
