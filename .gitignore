@@ -1,0 +1,7 @@
+tmp/
+_snapshots/
+.agents/
+.codex/
+.DS_Store
+Thumbs.db
+*.log
