@@ -1,0 +1,31 @@
+{
+  "id": "base-v1",
+  "name": "胖譜配方基礎規則",
+  "version": "1.0.0",
+  "conflicts": [
+    {
+      "id": "full-body-close-up",
+      "left": ["full body", "full-body", "全身", "完整全身"],
+      "right": ["extreme close-up", "close-up face", "臉部特寫", "極近距離特寫"],
+      "message": "全身入鏡與極近距離特寫可能互相衝突。"
+    },
+    {
+      "id": "mono-vivid",
+      "left": ["monochrome", "black and white", "黑白", "單色"],
+      "right": ["vivid colors", "highly saturated", "鮮豔色彩", "高飽和"],
+      "message": "黑白／單色與鮮豔高飽和色彩可能互相衝突。"
+    },
+    {
+      "id": "text-no-text",
+      "left": ["magazine title", "typography", "headline text", "封面標題", "文字排版"],
+      "right": ["no text", "avoid text", "不要文字", "禁止文字"],
+      "message": "要求文字排版，同時又禁止文字。"
+    },
+    {
+      "id": "single-couple",
+      "left": ["solo portrait", "one person", "single subject", "單人", "一人"],
+      "right": ["couple", "two people", "two subjects", "雙人", "兩人"],
+      "message": "單人與雙人條件同時存在。"
+    }
+  ]
+}
