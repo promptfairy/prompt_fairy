@@ -1,0 +1,21 @@
+.local-only-banner { border-color: #8b6ab5; background: #f4ecff; }
+.character-cabinet { padding: 16px; border: 1px solid #d8c8e8; border-radius: 18px; background: #fffdfd; }
+.character-create { border: 1px dashed #cdb9df; border-radius: 14px; padding: 10px 12px; }
+.character-create summary { cursor: pointer; font-weight: 700; }
+.details-body { margin-top: 12px; }
+.recipe-character-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
+.recipe-character-card { display: grid; gap: 8px; padding: 12px; border: 1px solid #e4d9ec; border-radius: 14px; background: #fff; }
+.recipe-character-card p { margin: 4px 0 0; color: #5f5368; font-size: 0.92rem; }
+.fixture-preview { display: flex; flex-wrap: wrap; gap: 6px; }
+.fixture-preview span { padding: 4px 8px; border-radius: 999px; background: #f1e8f7; font-size: 0.82rem; }
+.assignment-grid { align-items: start; }
+.assignment-card { min-width: 0; padding: 12px; border: 1px solid #dfd1e8; border-radius: 14px; background: #fbf7fd; }
+.fixture-selector { display: grid; gap: 8px; margin-top: 8px; }
+.fixture-choice { align-items: flex-start; padding: 8px 10px; border: 1px solid #e4d8eb; border-radius: 10px; background: #fff; }
+.fixture-choice span { display: grid; gap: 2px; }
+.fixture-choice small { color: #766c7d; }
+.btn.compact { width: auto; padding: 7px 10px; font-size: 0.86rem; }
+@media (max-width: 760px) {
+  .recipe-character-grid, .assignment-grid { grid-template-columns: 1fr; }
+  .character-cabinet .section-title { align-items: flex-start; gap: 10px; }
+}
