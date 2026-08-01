@@ -1,0 +1,53 @@
+name: Deploy workbench preview
+
+on:
+  push:
+    branches:
+      - feature/gooey-workbench-ui
+    paths:
+      - "_experiments/recipe-engine-v1/**"
+      - "assets/sprite-icon.png"
+      - ".github/workflows/deploy-ui-preview.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Publish fixed preview
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Check out UI branch
+        uses: actions/checkout@v5
+
+      - name: Prepare preview package
+        shell: bash
+        run: |
+          mkdir -p _site/assets
+          cp -a _experiments/recipe-engine-v1/. _site/
+          cp assets/sprite-icon.png _site/assets/sprite-icon.png
+          sed -i 's#../../assets/#./assets/#g' _site/index.html
+          touch _site/.nojekyll
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload preview artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy preview
+        id: deployment
+        uses: actions/deploy-pages@v4
