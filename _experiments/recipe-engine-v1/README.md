@@ -1,6 +1,6 @@
-# 配方引擎實驗版 v1
+# Prompt Fairy 統一工作台 v2
 
-這個目錄是 `feature/recipe-engine-v1` 分支上的獨立實驗版，不會覆蓋根目錄穩定版，也不會修改 `_experiments/local-rule-engine/`。
+這個目錄現在同時包含統一產品外殼、配方引擎、胖譜庫、人物設定庫、材料庫與本機資料管理。舊版 `app.js` 與 enhancement 檔仍保留供回溯，但入口只載入 `arcane-workbench.js` 與 `arcane-workbench.css`。
 
 ## 最容易開啟的方法
 
@@ -8,7 +8,7 @@
 
 `OPEN_RECIPE_ENGINE.html`
 
-它會自動帶到 `_experiments/recipe-engine-v1/index.html`。若看到 API key、OpenAI 或 Gemini 設定，代表開到根目錄穩定版，不是配方引擎。
+它會自動帶到 `_experiments/recipe-engine-v1/index.html`。新版不會顯示 API key、OpenAI 或 Gemini 設定。
 
 ## 目標
 
@@ -18,25 +18,31 @@
 - 支援鎖定、停用、改分類、改順序與手動編輯。
 - 可替換人物主調、添加濾鏡與尺寸設定。
 - 人物卡與配件分開保存，每次調製可自行勾選要帶入的配件。
-- 可嘗試從同一瀏覽器來源的正式版匯入人物卡與配件。
+- 胖譜庫、人物設定庫與材料庫採瀏覽優先介面，新增／編輯時才開啟表單。
+- 首次載入可從同來源的配方引擎與舊正式版複製既有資料，原資料不會刪除。
 - 以「保持原順序」或「標準配方順序」重新編譯。
 - 顯示這次調製做了什麼，不在背後自動刪詞。
+- 支援完整 JSON 備份匯出與匯入。
+- 桌面與手機共用同一套路由與資料，不再跳往根目錄舊版頁面。
 
 ## 隔離
 
-- localStorage key：`prompt-fairy-recipe-engine-v1`
+- localStorage key：`prompt-fairy-arcane-v2`
 - 入口：`OPEN_RECIPE_ENGINE.html`
 - 實際頁面：`_experiments/recipe-engine-v1/index.html`
-- 現有穩定版與舊實驗版的資料不會被寫入。
-- 只有使用者主動按「從正式版人物卡匯入」時，才會讀取正式版人物卡並複製到實驗資料區。
+- 現有穩定版與舊實驗版的 storage 不會被寫入或刪除。
+- 第一次建立 v2 資料時，會讀取 `prompt-fairy-recipe-engine-v1`、`prompt-sprite-state-v2` 或 `prompt-sprite-state-v1`，將缺少的人物、材料與胖譜複製到 v2。
+- 設定頁可重新掃描舊資料；同名人物、同名材料與同內容胖譜不會重複加入。
 
 ## 驗收路徑
 
 1. 貼入完整 Prompt。
 2. 點「拆成材料」。
 3. 確認所有原文片段仍存在。
-4. 新增或匯入人物卡。
+4. 到人物設定庫新增人物卡與固定配件。
 5. 在 [AA]／[BB] 選擇人物，勾選本次需要的配件。
 6. 加入濾鏡與 3:4。
-7. 點「本機調製新胖譜（不需 API）」。
-8. 複製輸出，並確認未勾選配件沒有被寫入。
+7. 點「Compose Prompt｜本機調製」。
+8. 確認未勾選配件沒有寫入，再將成品收進胖譜庫。
+9. 重新整理頁面，確認草稿、人物、材料與胖譜仍存在。
+10. 到設定頁匯出 JSON 備份。
