@@ -1,0 +1,214 @@
+:root {
+  --bg: #f2efe8;
+  --paper: rgba(255, 253, 249, 0.98);
+  --ink: #24313b;
+  --muted: #6c7479;
+  --line: #ddd8ce;
+  --accent: #293a4d;
+  --accent-soft: #eef1f3;
+  --mint: #edf3ee;
+  --amber: #f6efe0;
+  --rose: #f6ecec;
+  --action: #9a6b2f;
+  --action-deep: #805725;
+  --action-soft: #f5ede0;
+  --danger: #984f55;
+  --shadow: 0 12px 28px rgba(35, 49, 59, 0.08);
+}
+
+body {
+  background: linear-gradient(180deg, #f7f5f0 0%, var(--bg) 100%);
+}
+
+::selection {
+  background: #e8dcc5;
+  color: var(--ink);
+}
+
+.brand img {
+  background: var(--paper);
+  box-shadow: 0 8px 20px rgba(35, 49, 59, 0.09);
+}
+
+.badge {
+  border-color: #d4cec3;
+  background: rgba(255, 253, 249, 0.92);
+  color: var(--accent);
+}
+
+.panel {
+  background: var(--paper);
+  border-color: var(--line);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  backdrop-filter: none;
+}
+
+textarea,
+input,
+select {
+  border-color: var(--line);
+  background: #fffefa;
+  color: var(--ink);
+}
+
+textarea::placeholder,
+input::placeholder {
+  color: #969a9c;
+}
+
+textarea:focus,
+input:focus,
+select:focus {
+  border-color: var(--action);
+  box-shadow: 0 0 0 3px rgba(154, 107, 47, 0.12);
+}
+
+.btn {
+  box-shadow: none;
+}
+
+.btn.primary {
+  background: var(--action);
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(128, 87, 37, 0.16);
+}
+
+.btn.primary:hover:not(:disabled) {
+  background: var(--action-deep);
+}
+
+.btn.secondary {
+  background: #fffefa;
+  border-color: #d7d2c8;
+  color: var(--accent);
+}
+
+.btn.ghost {
+  background: transparent;
+  border-color: #d7d2c8;
+  color: var(--muted);
+}
+
+.btn.danger {
+  background: #fbf3f3;
+  color: var(--danger);
+  border-color: #ead2d4;
+}
+
+.notice {
+  border-color: var(--line);
+  background: #faf8f3;
+}
+
+.notice.success {
+  background: var(--mint);
+  border-color: #d3dfd5;
+}
+
+.notice.warning {
+  background: var(--amber);
+  border-color: #e2d4b9;
+}
+
+.notice.risk {
+  background: var(--rose);
+  border-color: #e4ced0;
+}
+
+.fragment {
+  border-color: var(--line);
+  background: #fffefa;
+}
+
+.fragment.locked {
+  border-color: #c9ae82;
+  box-shadow: inset 3px 0 0 var(--action);
+}
+
+.fragment-index {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.source-pill {
+  background: #f0eee9;
+  color: #59636b;
+}
+
+.mixer-card {
+  border-color: #cfc8bc;
+  background: #faf8f3;
+}
+
+.segment {
+  background: #eeece7;
+}
+
+.segment button.active {
+  background: #fffefa;
+  color: var(--accent);
+  box-shadow: 0 2px 8px rgba(35, 49, 59, 0.08);
+}
+
+.diff-item {
+  border-left-color: #c5a46e;
+}
+
+.empty {
+  border-color: #d4cfc5;
+  background: rgba(255, 253, 249, 0.55);
+}
+
+.local-only-banner {
+  border-color: #d8ccb6;
+  background: #f7f2e8;
+}
+
+.character-cabinet {
+  border-color: var(--line);
+  background: #fffefa;
+}
+
+.character-create {
+  border-color: #cfc8bc;
+  background: #faf8f3;
+}
+
+.recipe-character-card,
+.assignment-card,
+.fixture-choice {
+  border-color: var(--line);
+  background: #fffefa;
+}
+
+.recipe-character-card p,
+.fixture-choice small {
+  color: var(--muted);
+}
+
+.fixture-preview span {
+  background: #efede8;
+  color: #59636b;
+}
+
+.ingredient-tab {
+  border-color: #d8d3ca;
+  background: #fffefa;
+  color: #59636b;
+}
+
+.ingredient-tab span {
+  background: #efede8;
+  color: #667078;
+}
+
+.ingredient-tab.active {
+  border-color: var(--action);
+  background: var(--action-soft);
+  color: var(--accent);
+}
+
+.fixture-choice small:last-child {
+  color: #59636b;
+}
