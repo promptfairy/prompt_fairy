@@ -108,6 +108,13 @@ let rulePack = FALLBACK_RULE_PACK;
 let message = "";
 
 const state = loadState();
+const RECIPE_VIEW_IDS = new Set(["home", "workspace"]);
+let activeView = RECIPE_VIEW_IDS.has(location.hash.slice(1)) ? location.hash.slice(1) : "home";
+
+window.addEventListener("hashchange", () => {
+  activeView = RECIPE_VIEW_IDS.has(location.hash.slice(1)) ? location.hash.slice(1) : "home";
+  render();
+});
 
 function createInitialState() {
   return {
@@ -411,18 +418,123 @@ function clearExperiment() {
   render();
 }
 
+function renderBrandGlyph() {
+  return `
+    <span class="brand-glyph" aria-hidden="true">
+      <span class="brand-glyph-orbit"></span>
+      <span class="brand-glyph-star">✦</span>
+    </span>
+  `;
+}
+
+function renderProductBar(currentView = "home") {
+  return `
+    <header class="product-bar">
+      <a class="product-brand" href="#home" aria-label="回到 Prompt Fairy 首頁">
+        ${renderBrandGlyph()}
+        <span>
+          <strong>Prompt Fairy</strong>
+          <small>胖譜小精靈</small>
+        </span>
+      </a>
+      <nav class="product-nav" aria-label="主要導覽">
+        <a class="${currentView === "home" ? "active" : ""}" href="#home">首頁</a>
+        <a class="${currentView === "workspace" ? "active" : ""}" href="#workspace">調製台</a>
+        <a href="../../index.html#library">Prompt 庫</a>
+        <a href="../../index.html#characters">人物設定庫</a>
+      </nav>
+      <span class="local-status"><i></i>完全本機</span>
+    </header>
+  `;
+}
+
+function renderHome() {
+  const hasDraft = Boolean(state.sourcePrompt.trim() || state.fragments.length || state.outputPrompt.trim());
+  return `
+    <div class="app-shell home-shell">
+      ${renderProductBar("home")}
+      <main class="home-main">
+        <section class="home-hero">
+          <div class="hero-copy">
+            <span class="eyebrow">ARCANE PROMPT WORKBENCH</span>
+            <h1>把一整段胖譜，<br /><span>調成真正能控制的配方。</span></h1>
+            <p>拆解、置換、重組與保存常用設定。所有內容留在妳的瀏覽器裡，小精靈只在需要時留下安靜的魔法訊號。</p>
+            <div class="hero-meta">
+              <span><i></i> Local-first</span>
+              <span>15 類材料解析</span>
+              <span>不自動刪除原文</span>
+            </div>
+          </div>
+
+          <a class="beam-card primary-entry" href="#workspace">
+            <span class="beam-card-inner">
+              <span class="entry-kicker">RECOMMENDED</span>
+              <strong>Open Workspace</strong>
+              <span>開啟調製台</span>
+              <small>${hasDraft ? `已保留 ${state.fragments.length} 份材料，可以繼續調製` : "從貼入 Prompt 開始建立第一份配方"}</small>
+              <span class="entry-arrow" aria-hidden="true">↗</span>
+            </span>
+          </a>
+        </section>
+
+        <section class="home-entries" aria-label="其他功能入口">
+          <a class="entry-card" href="../../index.html#library">
+            <span class="entry-icon">▣</span>
+            <span>
+              <small>BROWSE RECIPES</small>
+              <strong>瀏覽 Prompt 庫</strong>
+              <p>查看收藏、標籤與歷史版本。</p>
+            </span>
+            <span class="entry-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="entry-card" href="../../index.html#characters">
+            <span class="entry-icon">◎</span>
+            <span>
+              <small>CHARACTER LIBRARY</small>
+              <strong>人物設定庫</strong>
+              <p>管理人物卡、外觀與固定配件。</p>
+            </span>
+            <span class="entry-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="entry-card ${hasDraft ? "has-draft" : ""}" href="#workspace">
+            <span class="entry-icon">◇</span>
+            <span>
+              <small>CONTINUE DRAFT</small>
+              <strong>繼續上次調製</strong>
+              <p>${hasDraft ? "上次內容仍在這台裝置上。" : "目前沒有草稿，會開啟空白工作檯。"}</p>
+            </span>
+            <span class="entry-arrow" aria-hidden="true">→</span>
+          </a>
+        </section>
+
+        <footer class="home-footer">
+          <span>${renderBrandGlyph()} A focused magical signal, not a universal decoration.</span>
+          <span>Recipe Engine · v1.3</span>
+        </footer>
+      </main>
+    </div>
+  `;
+}
+
 function render() {
+  if (activeView !== "workspace") {
+    document.querySelector("#app").innerHTML = renderHome();
+    bindEvents();
+    return;
+  }
+
   document.querySelector("#app").innerHTML = `
-    <div class="app-shell">
+    <div class="app-shell workspace-shell">
+      ${renderProductBar("workspace")}
       <header class="hero">
         <div class="brand">
-          <img src="../../assets/sprite-icon.png" alt="胖譜小精靈" />
+          ${renderBrandGlyph()}
           <div>
-            <h1>胖譜小精靈</h1>
-            <p>調酒工作檯 · 拆解、調整與重組胖譜</p>
+            <h1>Prompt Workspace</h1>
+            <p>調製台 · 拆解、調整與重組胖譜</p>
           </div>
         </div>
-        <div class="badge">完全本機 · v1.2</div>
+        <div class="badge">RECIPE ENGINE · v1.3</div>
       </header>
 
       <main class="layout">
@@ -461,7 +573,7 @@ function render() {
           </div>
         </section>
 
-        <section class="panel stack output-panel">
+        <section class="panel stack output-panel ${state.outputPrompt.trim() ? "is-complete" : ""}">
           <div>
             <h2>③ 調製與輸出</h2>
             <p class="panel-subtitle">替換主調、加點綴與冰塊；小精靈只執行你選定的操作。</p>
@@ -492,7 +604,7 @@ function render() {
                 </div>
               </div>
             </div>
-            <button class="btn primary" id="compilePrompt" ${!state.fragments.length ? "disabled" : ""}>調製新胖譜</button>
+            <button class="btn primary beam-action" id="compilePrompt" ${!state.fragments.length ? "disabled" : ""}>Compose Prompt｜調製新胖譜</button>
           </div>
 
           ${state.warnings.length ? `

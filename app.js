@@ -122,7 +122,8 @@ const defaultPhrases = [
   }
 ];
 
-let activePage = "workbench";
+const PAGE_IDS = new Set(navItems.map(([id]) => id));
+let activePage = PAGE_IDS.has(location.hash.slice(1)) ? location.hash.slice(1) : "workbench";
 let activeResultTab = "tips";
 let activePhraseCategory = "all";
 let editingPhraseId = "";
@@ -130,6 +131,12 @@ let libraryFilter = "all";
 let guideOpen = false;
 let busyMessage = "";
 let apiMessage = "";
+
+window.addEventListener("hashchange", () => {
+  const requestedPage = location.hash.slice(1);
+  activePage = PAGE_IDS.has(requestedPage) ? requestedPage : "workbench";
+  render();
+});
 
 const state = loadState();
 
@@ -232,6 +239,10 @@ function render() {
             </button>
           `).join("")}
         </nav>
+        <a class="workspace-return" href="./_experiments/recipe-engine-v1/index.html#workspace">
+          <span>✦</span>
+          <span><strong>Recipe Workspace</strong><small>回到新版調製台</small></span>
+        </a>
         <div class="sidebar-footer">
           <div><span class="status-dot ${hasApiKey() ? "green" : ""}"></span>${modeLabel()}</div>
           <div class="hint">${hasApiKey() ? "API key 已填寫" : "可先用本機模式"}</div>
@@ -889,8 +900,13 @@ function renderSettings() {
 function bindEvents() {
   document.querySelectorAll("[data-nav]").forEach((button) => {
     button.addEventListener("click", () => {
-      activePage = button.dataset.nav;
-      render();
+      const nextPage = button.dataset.nav;
+      if (location.hash !== `#${nextPage}`) {
+        location.hash = nextPage;
+      } else {
+        activePage = nextPage;
+        render();
+      }
     });
   });
   document.querySelector("#closeGuide")?.addEventListener("click", () => {
