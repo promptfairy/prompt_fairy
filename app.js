@@ -239,7 +239,7 @@ function render() {
             </button>
           `).join("")}
         </nav>
-        <a class="workspace-return" href="./_experiments/recipe-engine-v1/index.html#workspace">
+        <a class="workspace-return" href="./_experiments/recipe-engine-v1/index.html?v=arcane-1#workspace">
           <span>✦</span>
           <span><strong>Recipe Workspace</strong><small>回到新版調製台</small></span>
         </a>

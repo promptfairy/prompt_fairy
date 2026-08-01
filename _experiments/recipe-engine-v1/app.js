@@ -440,8 +440,8 @@ function renderProductBar(currentView = "home") {
       <nav class="product-nav" aria-label="主要導覽">
         <a class="${currentView === "home" ? "active" : ""}" href="#home">首頁</a>
         <a class="${currentView === "workspace" ? "active" : ""}" href="#workspace">調製台</a>
-        <a href="../../index.html#library">Prompt 庫</a>
-        <a href="../../index.html#characters">人物設定庫</a>
+        <a href="../../index.html?v=arcane-1#library">Prompt 庫</a>
+        <a href="../../index.html?v=arcane-1#characters">人物設定庫</a>
       </nav>
       <span class="local-status"><i></i>完全本機</span>
     </header>
@@ -478,7 +478,7 @@ function renderHome() {
         </section>
 
         <section class="home-entries" aria-label="其他功能入口">
-          <a class="entry-card" href="../../index.html#library">
+          <a class="entry-card" href="../../index.html?v=arcane-1#library">
             <span class="entry-icon">▣</span>
             <span>
               <small>BROWSE RECIPES</small>
@@ -487,7 +487,7 @@ function renderHome() {
             </span>
             <span class="entry-arrow" aria-hidden="true">→</span>
           </a>
-          <a class="entry-card" href="../../index.html#characters">
+          <a class="entry-card" href="../../index.html?v=arcane-1#characters">
             <span class="entry-icon">◎</span>
             <span>
               <small>CHARACTER LIBRARY</small>
