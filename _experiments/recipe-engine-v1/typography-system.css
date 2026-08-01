@@ -1,0 +1,224 @@
+/* Prompt Fairy typography system — YuPearl (zh-Hant) + Nunito (Latin)
+   Isolated override layer. Remove this stylesheet to restore the previous typography. */
+
+@import url("https://fontsapi.zeoseven.com/698/main/result.css");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+
+:root {
+  --font-zh: "YuPearl", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  --font-en: "Nunito", "Segoe UI", sans-serif;
+
+  --type-page: 28px;
+  --type-section: 16px;
+  --type-body: 14px;
+  --type-control: 13px;
+  --type-support: 12px;
+  --type-micro: 11px;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+}
+
+html,
+body,
+button,
+input,
+select,
+textarea,
+dialog {
+  font-family: var(--font-en), var(--font-zh);
+}
+
+/* 1. Page titles */
+.workspace-shell .brand h1,
+.library-header h1 {
+  font-family: var(--font-en), var(--font-zh);
+  font-size: var(--type-page);
+  font-weight: var(--weight-bold);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.library-header h1:lang(zh-Hant),
+.library-header h1:lang(zh-TW) {
+  font-family: var(--font-zh);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0;
+}
+
+/* 2. Section and card titles */
+.panel h2,
+.panel h3,
+.card-heading h2,
+.library-empty h2,
+.dialog-heading h2,
+.settings-card h2 {
+  font-family: var(--font-zh);
+  font-size: var(--type-section);
+  font-weight: var(--weight-semibold);
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+/* 3. Navigation and primary actions */
+.product-nav a span,
+.btn,
+.segment button,
+.filter-pills button,
+.ingredient-tab {
+  font-size: var(--type-control);
+  line-height: 1.4;
+}
+
+.product-nav a span,
+.eyebrow,
+.entry-kicker,
+.badge,
+.layout > .panel:nth-child(2)::before {
+  font-family: var(--font-en);
+  font-weight: var(--weight-bold);
+}
+
+.btn,
+.segment button,
+.filter-pills button,
+.ingredient-tab {
+  font-family: var(--font-en), var(--font-zh);
+  font-weight: var(--weight-semibold);
+}
+
+.product-nav a small {
+  font-family: var(--font-zh);
+  font-size: var(--type-micro);
+  font-weight: var(--weight-regular);
+  letter-spacing: 0;
+}
+
+/* 4. Field labels */
+.field label,
+.character-facts > span,
+.settings-card dt,
+.settings-card dd {
+  font-family: var(--font-zh);
+  font-size: var(--type-control);
+  font-weight: var(--weight-medium);
+  line-height: 1.45;
+}
+
+/* 5. Main reading and input text */
+textarea,
+input,
+select,
+.material-content,
+.collection-card-body > p,
+.character-facts p,
+.settings-card p {
+  font-size: var(--type-body);
+  font-weight: var(--weight-regular);
+  line-height: 1.65;
+}
+
+textarea,
+input,
+select,
+.collection-card-body > p,
+.character-facts p,
+.settings-card p {
+  font-family: var(--font-en), var(--font-zh);
+}
+
+.material-content {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+/* 6. Supporting descriptions */
+.panel-subtitle,
+.notice,
+.diff-item,
+.entry-card p,
+.beam-card small,
+.library-header p,
+.library-empty p,
+.hint,
+.fixture-choice small,
+.recipe-character-card p {
+  font-family: var(--font-zh);
+  font-size: var(--type-support);
+  font-weight: var(--weight-regular);
+  line-height: 1.65;
+}
+
+/* 7. Micro information and short states */
+.product-brand small,
+.local-status,
+.hero-meta,
+.source-pill,
+.status-chip,
+.meta-chip,
+.card-heading small,
+.settings-kicker,
+.character-facts > span,
+.home-footer,
+.entry-card small,
+.dialog-heading small {
+  font-size: var(--type-micro);
+  line-height: 1.45;
+}
+
+.local-status,
+.card-heading small,
+.settings-kicker,
+.entry-card small,
+.dialog-heading small,
+.layout > .panel:nth-child(2)::before {
+  font-family: var(--font-en);
+  font-weight: var(--weight-semibold);
+}
+
+.source-pill,
+.status-chip,
+.meta-chip {
+  font-family: var(--font-en), var(--font-zh);
+  font-weight: var(--weight-medium);
+}
+
+.product-brand strong,
+.beam-card strong,
+.entry-card strong {
+  font-family: var(--font-en), var(--font-zh);
+}
+
+.product-brand strong {
+  font-size: var(--type-control);
+  font-weight: var(--weight-bold);
+}
+
+.workspace-shell .brand p,
+.beam-card strong + span {
+  font-family: var(--font-zh);
+  font-size: var(--type-control);
+  font-weight: var(--weight-regular);
+}
+
+/* Preserve compact controls without allowing illegibly small text. */
+.eyebrow,
+.entry-kicker,
+.badge,
+.layout > .panel:nth-child(2)::before {
+  font-size: var(--type-micro);
+  line-height: 1.35;
+}
+
+/* Chinese text should not inherit synthetic heavy Latin weights. */
+:lang(zh-Hant),
+:lang(zh-TW) {
+  font-family: var(--font-zh);
+}
+
+@media (max-width: 760px) {
+  :root {
+    --type-page: 24px;
+  }
+}
