@@ -51,3 +51,5 @@ jobs:
       - name: Deploy preview
         id: deployment
         uses: actions/deploy-pages@v4
+
+# Redeploy after repository visibility changed to public.
