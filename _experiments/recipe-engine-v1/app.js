@@ -418,11 +418,11 @@ function render() {
         <div class="brand">
           <img src="../../assets/sprite-icon.png" alt="胖譜小精靈" />
           <div>
-            <h1>胖譜調酒精靈</h1>
-            <p>配方引擎 v1 · 不連 API · 不懂的材料也不丟掉</p>
+            <h1>胖譜小精靈</h1>
+            <p>調酒工作檯 · 拆解、調整與重組胖譜</p>
           </div>
         </div>
-        <div class="badge">feature/recipe-engine-v1</div>
+        <div class="badge">完全本機 · v1.2</div>
       </header>
 
       <main class="layout">
