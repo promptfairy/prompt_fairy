@@ -301,14 +301,6 @@
     const compileButton = document.querySelector("#compilePrompt");
     if (compileButton) compileButton.textContent = "本機調製新胖譜（不需 API）";
 
-    const firstPanel = document.querySelector("main .panel");
-    firstPanel?.insertAdjacentHTML("afterbegin", `
-      <div class="notice local-only-banner">
-        <strong>這一頁完全不使用 API。</strong>
-        <span>若你看到 API key、OpenAI 或 Gemini 設定，代表開到根目錄的穩定版，請改開 <code>OPEN_RECIPE_ENGINE.html</code>。</span>
-      </div>
-    `);
-
     bindEnhancementEvents();
   }
 

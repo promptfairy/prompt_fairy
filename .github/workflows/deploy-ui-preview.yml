@@ -6,6 +6,7 @@ on:
       - feature/gooey-workbench-ui
     paths:
       - "_experiments/recipe-engine-v1/**"
+      - "index.html"
       - "assets/sprite-icon.png"
       - ".github/workflows/deploy-ui-preview.yml"
   workflow_dispatch:
@@ -51,5 +52,3 @@ jobs:
       - name: Deploy preview
         id: deployment
         uses: actions/deploy-pages@v4
-
-# Redeploy after repository visibility changed to public.

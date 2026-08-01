@@ -50,5 +50,5 @@ const server = http.createServer((req, res) => {
 
 server.listen(port, host, () => {
   console.log(`胖譜小精靈 running at http://${host}:${port}/`);
-  console.log(`規則引擎實驗版: http://${host}:${port}/_experiments/local-rule-engine/`);
+  console.log(`調製台: http://${host}:${port}/_experiments/recipe-engine-v1/#workspace`);
 });

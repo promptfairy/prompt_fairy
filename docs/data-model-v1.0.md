@@ -6,9 +6,9 @@
 
 第一版採 local-first：
 
-- 角色卡、咒語匣、胖譜庫、圖片索引、版本紀錄與設定預設保存在使用者裝置。
-- 圖片檔案只作 app 內顯示與版本紀錄，不自動送 AI。
-- API key 只存在使用者裝置。
+- 人物設定、材料庫、胖譜庫、圖片索引、版本紀錄與設定預設保存在使用者裝置。
+- 圖片檔案只作 app 內顯示與版本紀錄，不自動上傳。
+- 不保存 API key 或遠端生成連線資訊。
 
 本文件先描述資料結構與欄位意義，不綁定特定資料庫。實作可使用 IndexedDB、localForage、Dexie 或其他 PWA 本機儲存方案。
 
@@ -26,12 +26,11 @@
 settings
 characters
 characterImports
-phraseCards
+materials
 promptEntries
 promptVersions
 assets
 tags
-apiConnections
 activityLogs
 ```
 
@@ -74,7 +73,7 @@ type AppSettings = {
 
 ## Character
 
-角色卡只保存角色本人，不固定綁定 `[AA]`、`[BB]`。
+人物設定只保存角色本人，不固定綁定 `[AA]`、`[BB]`。
 
 ```ts
 type Character = {
@@ -172,7 +171,7 @@ type Fixture = {
 
 ## Character Import
 
-從舊胖譜匯入角色卡時的暫存草稿。
+從舊胖譜匯入人物設定時的暫存草稿。
 
 ```ts
 type CharacterImport = {
@@ -201,10 +200,10 @@ type ExtractedField = {
 
 ## Phrase Card
 
-咒語匣中的咒語卡。存 prompt 片段，不存完整胖譜。
+材料庫中的材料卡。存 prompt 片段，不存完整胖譜。
 
 ```ts
-type PhraseCard = {
+type Material = {
   id: string;
   name: string;
   category:
@@ -246,7 +245,7 @@ type PromptEntry = {
   sourcePrompt: string;
   sourceUrl?: string;
   sourcePlatform?: "threads" | "instagram" | "manual" | "other";
-  provider: "openai" | "gemini" | null;
+  outputFormat: "natural_language";
   status: "unused" | "used" | "retry";
   coverAssetId?: string;
   demoAssetIds: string[];
@@ -264,13 +263,13 @@ type PromptEntry = {
 欄位說明：
 
 - `sourcePrompt` 保存原始胖譜。
-- `provider` 第一版只支援 OpenAI / Gemini。
+- `outputFormat` 第一版固定為自然語句 Prompt。
 - `coverAssetId` 是胖譜列表封面。
 - `demoAssetIds` 是示範圖，不自動送 AI。
 
 ## Prompt Version
 
-胖譜版本紀錄。每次從工作台生成或修修胖譜後都可產生一筆版本。
+胖譜版本紀錄。每次從調製台生成或修修胖譜後都可產生一筆版本。
 
 ```ts
 type PromptVersion = {
@@ -284,7 +283,7 @@ type PromptVersion = {
   provider: "openai" | "gemini" | null;
   generationMode: "recast" | "only_selected" | "series" | "repair";
   characterAssignments: CharacterAssignment[];
-  appliedPhraseCardIds: string[];
+  appliedMaterialIds: string[];
   resultAssetIds: string[];
   userFeedback?: {
     problemText?: string;
@@ -393,9 +392,9 @@ type ApiConnection = {
 
 安全原則：
 
-- 實作時盡量使用瀏覽器本機安全儲存能力。
-- 不在畫面上回顯完整 API key。
-- 不把 API key 匯出到一般 JSON 備份，除非使用者明確選擇。
+- 實作時使用瀏覽器本機儲存能力。
+- 不建立或保存任何遠端生成憑證。
+- JSON 備份只包含 Prompt Fairy 的本機館藏、設定與規則資料。
 
 ## Activity Log
 
@@ -448,15 +447,15 @@ type SendPayloadPreview = {
 
 第一版保存：
 
-- 角色卡。
+- 人物設定。
 - 固定標記與配件。
-- 咒語卡。
+- 材料卡。
 - 完整胖譜收藏。
 - 胖譜版本。
 - 本機圖片。
 - 標籤。
 - 設定。
-- API key 連線資訊。
+- 本機規則包資訊。
 
 第一版不保存或不處理：
 
@@ -473,15 +472,12 @@ JSON 匯出第一版應包含：
 
 - settings。
 - characters。
-- phraseCards。
+- materials。
 - promptEntries。
 - promptVersions。
 - tags。
 
-JSON 匯出預設不包含：
-
-- API key。
-- 圖片 blob。
+JSON 匯出預設不包含圖片 blob。
 
 圖片備份第一版可暫緩，或提供「匯出資料不含圖片」提示。
 

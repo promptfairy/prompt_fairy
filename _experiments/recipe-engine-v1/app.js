@@ -411,10 +411,10 @@ async function copyOutput() {
 }
 
 function clearExperiment() {
-  if (!confirm("要清除配方引擎實驗版的本機資料嗎？穩定版與舊實驗版資料不受影響。")) return;
-  localStorage.removeItem(STORAGE_KEY);
+  if (!confirm("要清空目前調製台嗎？胖譜庫、人物設定庫與材料庫不受影響。")) return;
   Object.assign(state, createInitialState());
-  message = "已清除這個實驗版的資料。";
+  message = "已清空目前調製台。";
+  saveState();
   render();
 }
 
@@ -440,8 +440,8 @@ function renderProductBar(currentView = "home") {
       <nav class="product-nav" aria-label="主要導覽">
         <a class="${currentView === "home" ? "active" : ""}" href="#home">首頁</a>
         <a class="${currentView === "workspace" ? "active" : ""}" href="#workspace">調製台</a>
-        <a href="../../index.html?v=arcane-1#library">Prompt 庫</a>
-        <a href="../../index.html?v=arcane-1#characters">人物設定庫</a>
+        <a href="#library">Prompt 庫</a>
+        <a href="#characters">人物設定庫</a>
       </nav>
       <span class="local-status"><i></i>完全本機</span>
     </header>
@@ -478,7 +478,7 @@ function renderHome() {
         </section>
 
         <section class="home-entries" aria-label="其他功能入口">
-          <a class="entry-card" href="../../index.html?v=arcane-1#library">
+          <a class="entry-card" href="#library">
             <span class="entry-icon">▣</span>
             <span>
               <small>BROWSE RECIPES</small>
@@ -487,7 +487,7 @@ function renderHome() {
             </span>
             <span class="entry-arrow" aria-hidden="true">→</span>
           </a>
-          <a class="entry-card" href="../../index.html?v=arcane-1#characters">
+          <a class="entry-card" href="#characters">
             <span class="entry-icon">◎</span>
             <span>
               <small>CHARACTER LIBRARY</small>
