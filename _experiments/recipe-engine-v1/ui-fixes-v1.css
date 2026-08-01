@@ -1,0 +1,109 @@
+/* UI fixes: stable small-text rendering and unified page-header spacing. */
+
+@font-face {
+  font-family: "YuPearl PF";
+  src: url("https://cdn.jsdelivr.net/gh/max32002/YuPearl@1.011/webfont/YuPearl-Regular.woff2") format("woff2"),
+       url("https://cdn.jsdelivr.net/gh/max32002/YuPearl@1.011/webfont/YuPearl-Regular.woff") format("woff");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+/* YuPearl Light can lose or merge strokes at compact sizes. Use Regular for UI text. */
+.panel h2,
+.panel h3,
+.card-heading h2,
+.library-empty h2,
+.dialog-heading h2,
+.settings-card h2,
+.character-facts h3,
+.assignment-card h3,
+.panel-subtitle,
+.notice,
+.diff-item,
+.entry-card p,
+.beam-card small,
+.library-empty p,
+.hint,
+.fixture-choice small,
+.recipe-character-card p,
+.field label,
+.character-facts > span,
+.settings-card dt,
+.settings-card dd,
+.toggle,
+textarea,
+input,
+select,
+.collection-card-body > p,
+.character-facts p,
+.settings-card p,
+.btn,
+.segment button,
+.filter-pills button,
+.ingredient-tab,
+.source-pill,
+.status-chip,
+.meta-chip,
+.product-nav a small,
+.workspace-page-header p,
+.library-header p {
+  font-weight: 400 !important;
+  font-synthesis: none;
+}
+
+textarea,
+input,
+select,
+.panel-subtitle,
+.hint,
+.notice,
+.collection-card-body > p,
+.character-facts p,
+.settings-card p {
+  line-height: 1.78;
+}
+
+/* Library pages previously received top padding from both main and header. */
+.library-main {
+  padding-top: 0 !important;
+}
+
+.workspace-shell .workspace-page-header,
+.library-shell .library-header {
+  padding-top: clamp(44px, 7vw, 82px) !important;
+  margin-bottom: 34px !important;
+}
+
+/* Keep all non-home page headers at the same vertical rhythm as Workspace. */
+.library-shell .library-header,
+.workspace-shell .workspace-page-header {
+  min-height: 330px;
+  align-content: end;
+}
+
+.library-shell .library-header > div,
+.workspace-shell .workspace-page-header > div {
+  align-self: end;
+}
+
+.library-shell .library-header > .btn,
+.workspace-shell .workspace-page-header > .badge {
+  align-self: end;
+  margin-bottom: 8px;
+}
+
+.edit-dialog-note {
+  margin: -6px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@media (max-width: 760px) {
+  .workspace-shell .workspace-page-header,
+  .library-shell .library-header {
+    min-height: auto;
+    padding-top: 36px !important;
+  }
+}
