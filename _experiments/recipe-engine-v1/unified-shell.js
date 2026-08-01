@@ -235,7 +235,7 @@
         <span>${entries.length} 份館藏</span>
       </div>
       <section class="collection-grid">
-        ${entries.length ? entries.map(renderPromptCard).join("") : renderEmpty("胖譜庫還是空的", "先收進第一份胖譜，之後一進來就會先看到館藏。")} 
+        ${entries.length ? entries.map(renderPromptCard).join("") : renderEmpty("胖譜庫還是空的", "先收進第一份胖譜，之後一進來就會先看到館藏。")}
       </section>
       ${renderPromptDialog()}
     `, "library");
@@ -282,7 +282,7 @@
       ${pageHeader("CHARACTER LIBRARY", "人物設定庫", "肖像、固定外觀與配件都收在這裡；套用狀態會直接顯示在卡片上。", `<button class="btn primary" data-open-dialog="character-dialog">＋ 新增人物</button>`)}
       <div class="library-toolbar"><span>目前人物設定</span><span>${state.characters.length} 張人物卡</span></div>
       <section class="collection-grid character-grid">
-        ${state.characters.length ? state.characters.map(renderCharacterCard).join("") : renderEmpty("人物設定庫還是空的", "新增人物後，調製台只需要選擇要套用哪一張人物卡。")} 
+        ${state.characters.length ? state.characters.map(renderCharacterCard).join("") : renderEmpty("人物設定庫還是空的", "新增人物後，調製台只需要選擇要套用哪一張人物卡。")}
       </section>
       ${renderCharacterDialog()}
     `, "characters");
@@ -317,7 +317,7 @@
         <span>${materials.length} 份材料</span>
       </div>
       <section class="collection-grid material-grid">
-        ${materials.length ? materials.map(renderMaterialCard).join("") : renderEmpty("這個分類還沒有材料", "按右上角新增，表單只會在需要時出現。")} 
+        ${materials.length ? materials.map(renderMaterialCard).join("") : renderEmpty("這個分類還沒有材料", "按右上角新增，表單只會在需要時出現。")}
       </section>
       ${renderMaterialDialog()}
     `, "materials");
