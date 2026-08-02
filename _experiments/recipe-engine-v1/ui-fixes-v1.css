@@ -111,8 +111,18 @@ select,
   line-height: 1.65;
 }
 
-/* Runtime toast: instant appearance, 10-second hold, then slide downward and fade. */
-.page-toast.runtime-toast {
+/* Persistent toast layer sits outside #app, so route changes do not replay its entrance. */
+.runtime-toast-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.runtime-toast-layer .page-toast.runtime-toast {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
@@ -123,6 +133,7 @@ select,
   transform: translateY(0);
   transition: opacity 0.42s ease, transform 0.42s cubic-bezier(.22,.61,.36,1);
   will-change: opacity, transform;
+  pointer-events: auto;
 }
 
 .runtime-toast-signal {
@@ -137,15 +148,32 @@ select,
   box-shadow: 0 0 18px rgba(120, 215, 232, 0.08);
 }
 
-.page-toast.runtime-toast.is-entering {
+.runtime-toast-layer .page-toast.runtime-toast.is-entering {
   opacity: 0;
   transform: translateY(12px);
 }
 
-.page-toast.runtime-toast.is-dismissing {
+.runtime-toast-layer .page-toast.runtime-toast.is-dismissing {
   opacity: 0;
   transform: translateY(28px);
   pointer-events: none;
+}
+
+/* Prevent ACTIVE WORKSPACE from colliding with the fragment count pill. */
+.layout > .panel:nth-child(2)::before {
+  top: 15px;
+  right: 20px;
+}
+
+.layout > .panel:nth-child(2) .section-title {
+  padding-right: 116px;
+  min-height: 42px;
+}
+
+.layout > .panel:nth-child(2) .section-title .source-pill {
+  position: absolute;
+  top: 38px;
+  right: 20px;
 }
 
 @media (max-width: 760px) {
@@ -155,10 +183,18 @@ select,
     padding-top: 36px !important;
   }
 
-  .page-toast.runtime-toast {
+  .runtime-toast-layer .page-toast.runtime-toast {
     right: 12px;
     bottom: 12px;
     min-width: 0;
     max-width: calc(100vw - 24px);
+  }
+
+  .layout > .panel:nth-child(2) .section-title {
+    padding-right: 0;
+  }
+
+  .layout > .panel:nth-child(2) .section-title .source-pill {
+    position: static;
   }
 }
