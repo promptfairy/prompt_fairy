@@ -18,7 +18,6 @@
   font-display: swap;
 }
 
-/* Operational UI stays Regular for clarity. */
 .panel h2,
 .panel h3,
 .card-heading h2,
@@ -44,7 +43,6 @@
   font-synthesis: none;
 }
 
-/* Reading text uses YuPearl ExtraLight as requested. */
 .panel-subtitle,
 .notice,
 .diff-item,
@@ -78,7 +76,6 @@ select,
   line-height: 1.82;
 }
 
-/* Library pages previously received top padding from both main and header. */
 .library-main {
   padding-top: 0 !important;
 }
@@ -89,7 +86,6 @@ select,
   margin-bottom: 34px !important;
 }
 
-/* Keep all non-home page headers at the same vertical rhythm as Workspace. */
 .library-shell .library-header,
 .workspace-shell .workspace-page-header {
   min-height: 330px;
@@ -115,16 +111,40 @@ select,
   line-height: 1.65;
 }
 
-/* Toasts fade out instead of remaining pinned to the viewport. */
-.page-toast {
+/* Runtime toast: instant appearance, 10-second hold, then slide downward and fade. */
+.page-toast.runtime-toast {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-width: min(360px, calc(100vw - 48px));
+  max-width: min(520px, calc(100vw - 48px));
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 0.28s ease, transform 0.28s ease;
+  transition: opacity 0.42s ease, transform 0.42s cubic-bezier(.22,.61,.36,1);
+  will-change: opacity, transform;
 }
 
-.page-toast.is-dismissing {
+.runtime-toast-signal {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(120, 215, 232, 0.32);
+  border-radius: 50%;
+  color: var(--arcane-cyan);
+  background: rgba(120, 215, 232, 0.08);
+  box-shadow: 0 0 18px rgba(120, 215, 232, 0.08);
+}
+
+.page-toast.runtime-toast.is-entering {
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateY(12px);
+}
+
+.page-toast.runtime-toast.is-dismissing {
+  opacity: 0;
+  transform: translateY(28px);
   pointer-events: none;
 }
 
@@ -133,5 +153,12 @@ select,
   .library-shell .library-header {
     min-height: auto;
     padding-top: 36px !important;
+  }
+
+  .page-toast.runtime-toast {
+    right: 12px;
+    bottom: 12px;
+    min-width: 0;
+    max-width: calc(100vw - 24px);
   }
 }
