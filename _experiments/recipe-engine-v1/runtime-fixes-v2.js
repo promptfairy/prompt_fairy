@@ -23,6 +23,27 @@
     });
   }
 
+  function bindSourcePromptReadiness() {
+    const textarea = document.querySelector("#sourcePrompt");
+    const parseButton = document.querySelector("#parseRecipe");
+    if (!textarea || !parseButton) return;
+
+    const updateReadiness = () => {
+      const value = textarea.value;
+      parseButton.disabled = !value.trim();
+
+      const hint = textarea.parentElement?.querySelector(".hint");
+      if (hint) hint.textContent = `${value.length} 字 · 儲存在本瀏覽器的獨立實驗資料區`;
+    };
+
+    updateReadiness();
+
+    if (textarea.dataset.readinessBound === "true") return;
+    textarea.dataset.readinessBound = "true";
+    textarea.addEventListener("input", updateReadiness);
+    textarea.addEventListener("change", updateReadiness);
+  }
+
   function readToast() {
     try {
       const parsed = JSON.parse(sessionStorage.getItem(TOAST_STORAGE_KEY) || "null");
@@ -57,17 +78,8 @@
     toastExitTimer = 0;
   }
 
-  function ensureToastLayer() {
-    let layer = document.querySelector("#runtime-toast-layer");
-    if (layer) return layer;
-
-    layer = document.createElement("div");
-    layer.id = "runtime-toast-layer";
-    layer.className = "runtime-toast-layer";
-    layer.setAttribute("aria-live", "polite");
-    layer.setAttribute("aria-atomic", "true");
-    document.body.appendChild(layer);
-    return layer;
+  function toastLayer() {
+    return document.querySelector("#runtime-toast-layer");
   }
 
   function scheduleToastDismiss(record, toast) {
@@ -85,22 +97,14 @@
     }, remaining);
   }
 
-  function renderPersistentToast() {
-    const record = readToast();
-    const layer = ensureToastLayer();
+  function showToast(record, animate = true) {
+    const layer = toastLayer();
+    if (!layer || !record) return;
+
     let toast = layer.querySelector(".runtime-toast");
-
-    if (!record) {
-      clearToastTimers();
-      toast?.remove();
-      return;
-    }
-
-    /* Keep the same DOM node alive across #app re-renders and route changes. */
     if (toast?.dataset.toastId === record.id) {
       const message = toast.querySelector(".runtime-toast-message");
-      if (message && message.textContent !== record.text) message.textContent = record.text;
-      scheduleToastDismiss(record, toast);
+      if (message) message.textContent = record.text;
       return;
     }
 
@@ -108,7 +112,7 @@
     toast?.remove();
 
     toast = document.createElement("div");
-    toast.className = "page-toast runtime-toast is-entering";
+    toast.className = `page-toast runtime-toast${animate ? " is-entering" : ""}`;
     toast.dataset.toastId = record.id;
     toast.setAttribute("role", "status");
     toast.innerHTML = `
@@ -117,8 +121,15 @@
     `;
     layer.appendChild(toast);
 
-    requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.remove("is-entering")));
+    if (animate) {
+      requestAnimationFrame(() => requestAnimationFrame(() => toast.classList.remove("is-entering")));
+    }
     scheduleToastDismiss(record, toast);
+  }
+
+  function restoreToastOnLoad() {
+    const record = readToast();
+    if (record) showToast(record, false);
   }
 
   function suppressLegacyToast() {
@@ -138,17 +149,17 @@
 
     state.mixer.additions = [state.mixer.additions.trim(), material.content].filter(Boolean).join("\n");
     saveState();
-    saveToast(`已將「${material.name}」加入調製台。`);
+    const record = saveToast(`已將「${material.name}」加入調製台。`);
 
-    /* Stay on the current library page. The toast lives outside #app and survives re-renders. */
+    /* Keep the current page. The toast layer is static and never participates in #app re-renders. */
     render();
-    renderPersistentToast();
+    showToast(record, true);
   }
 
   function applyRuntimeFixes() {
     patchHomeLinks();
     suppressLegacyToast();
-    renderPersistentToast();
+    bindSourcePromptReadiness();
   }
 
   document.addEventListener("click", handleMaterialApply, true);
@@ -164,4 +175,5 @@
   });
 
   if (!forceWorkspaceRoute()) applyRuntimeFixes();
+  restoreToastOnLoad();
 })();
