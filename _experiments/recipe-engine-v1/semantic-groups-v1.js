@@ -1,10 +1,11 @@
 (() => {
-  const MODULE_VERSION = "semantic-groups-v1.0.0";
+  const MODULE_VERSION = "semantic-groups-v1.0.1";
   const previousRender = render;
   const previousSplitPrompt = splitPrompt;
   const expandedGroups = new Set();
   const expandedFixtureManagers = new Set();
   let semanticFilter = "all";
+  let viewportRestoreToken = 0;
 
   const SEMANTIC_GROUPS = [
     { id: "character", zh: "人物設定", en: "CHARACTER", attribute: "高變動" },
@@ -29,6 +30,77 @@
     if (category === "lighting") return "lighting";
     if (["style_quality", "style", "quality"].includes(category)) return "style";
     return "preserved";
+  }
+
+  function activeControlIdentity() {
+    const active = document.activeElement;
+    if (!active) return null;
+    const controlTypes = [
+      ["fragmentText", "fragment-text"],
+      ["fragmentCategory", "fragment-category"],
+      ["fragmentEnabled", "fragment-enabled"],
+      ["fragmentLocked", "fragment-locked"],
+      ["semanticFilter", "semantic-filter"]
+    ];
+    const match = controlTypes.find(([property]) => active.dataset?.[property]);
+    return match ? { property: match[0], attribute: match[1], value: active.dataset[match[0]] } : null;
+  }
+
+  function captureViewportState() {
+    const active = document.activeElement;
+    const fragmentCard = active?.closest?.("[data-fragment-card]");
+    const filterBar = document.querySelector(".semantic-filter-tabs");
+    let anchor = null;
+
+    if (fragmentCard) {
+      anchor = {
+        kind: "fragment",
+        id: fragmentCard.dataset.fragmentCard,
+        top: fragmentCard.getBoundingClientRect().top
+      };
+    } else if (active?.closest?.("[data-semantic-filter]") && filterBar) {
+      anchor = { kind: "filters", top: filterBar.getBoundingClientRect().top };
+    }
+
+    return {
+      scrollX: window.scrollX || 0,
+      scrollY: window.scrollY || 0,
+      filterScrollLeft: filterBar?.scrollLeft || 0,
+      anchor,
+      activeControl: activeControlIdentity()
+    };
+  }
+
+  function restoreViewportState(viewport) {
+    const token = ++viewportRestoreToken;
+    const schedule = window.requestAnimationFrame || ((callback) => window.setTimeout(callback, 0));
+    schedule(() => {
+      if (token !== viewportRestoreToken) return;
+      const filterBar = document.querySelector(".semantic-filter-tabs");
+      if (filterBar) filterBar.scrollLeft = viewport.filterScrollLeft;
+
+      let anchorElement = null;
+      if (viewport.anchor?.kind === "fragment") {
+        anchorElement = [...document.querySelectorAll("[data-fragment-card]")]
+          .find((card) => card.dataset.fragmentCard === viewport.anchor.id) || null;
+      } else if (viewport.anchor?.kind === "filters") {
+        anchorElement = filterBar;
+      }
+
+      const anchorIsVisible = anchorElement && anchorElement.getClientRects().length > 0;
+      if (anchorIsVisible) {
+        const delta = anchorElement.getBoundingClientRect().top - viewport.anchor.top;
+        if (delta) window.scrollBy(0, delta);
+      } else {
+        window.scrollTo(viewport.scrollX, viewport.scrollY);
+      }
+
+      const control = viewport.activeControl;
+      if (!control) return;
+      const escaped = window.CSS?.escape ? window.CSS.escape(control.value) : control.value.replace(/["\\]/g, "\\$&");
+      const replacement = document.querySelector(`[data-${control.attribute}="${escaped}"]`);
+      replacement?.focus?.({ preventScroll: true });
+    });
   }
 
   /*
@@ -251,9 +323,11 @@
   }
 
   render = function semanticGroupsRender() {
+    const viewport = captureViewportState();
     previousRender();
     applySemanticGroups();
     applyFixtureManagers();
+    restoreViewportState(viewport);
   };
 
   window.promptFairySemanticGroups = {
