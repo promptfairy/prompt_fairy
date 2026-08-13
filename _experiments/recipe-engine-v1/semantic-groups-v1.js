@@ -1,5 +1,5 @@
 (() => {
-  const MODULE_VERSION = "semantic-groups-v1.0.4";
+  const MODULE_VERSION = "semantic-groups-v1.0.5";
   const previousRender = render;
   const previousSplitPrompt = splitPrompt;
   const expandedGroups = new Set();
@@ -51,6 +51,7 @@
     const active = preferredControl || document.activeElement;
     const fragmentCard = active?.closest?.("[data-fragment-card]");
     const filterBar = document.querySelector(".semantic-filter-tabs");
+    const recipeList = document.querySelector(".recipe-list");
     let anchor = null;
 
     if (fragmentCard) {
@@ -66,6 +67,8 @@
     return {
       scrollX: window.scrollX || 0,
       scrollY: window.scrollY || 0,
+      recipeListScrollLeft: recipeList?.scrollLeft || 0,
+      recipeListScrollTop: recipeList?.scrollTop || 0,
       filterScrollLeft: filterBar?.scrollLeft || 0,
       anchor,
       activeControl: activeControlIdentity(active)
@@ -105,6 +108,11 @@
     schedule(() => {
       if (token !== viewportRestoreToken) return;
       const filterBar = document.querySelector(".semantic-filter-tabs");
+      const recipeList = document.querySelector(".recipe-list");
+      if (recipeList) {
+        recipeList.scrollLeft = viewport.recipeListScrollLeft;
+        recipeList.scrollTop = viewport.recipeListScrollTop;
+      }
       if (filterBar) filterBar.scrollLeft = viewport.filterScrollLeft;
 
       let anchorElement = null;
