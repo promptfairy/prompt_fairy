@@ -1,5 +1,5 @@
 (() => {
-  const MODULE_VERSION = "semantic-groups-v1.0.3";
+  const MODULE_VERSION = "semantic-groups-v1.0.4";
   const previousRender = render;
   const previousSplitPrompt = splitPrompt;
   const expandedGroups = new Set();
@@ -82,11 +82,17 @@
     ].join(","));
     if (!control) return;
 
-    pendingInteractionViewport = captureViewportState(control);
+    const identity = activeControlIdentity(control);
+    const pendingIdentity = pendingInteractionViewport?.activeControl;
+    const isSameInteraction = identity && pendingIdentity
+      && identity.attribute === pendingIdentity.attribute
+      && identity.value === pendingIdentity.value;
+    if (!isSameInteraction) pendingInteractionViewport = captureViewportState(control);
+
     window.clearTimeout(pendingInteractionTimer);
     pendingInteractionTimer = window.setTimeout(() => {
       pendingInteractionViewport = null;
-    }, 0);
+    }, 500);
   }
 
   ["pointerdown", "click", "input", "change"].forEach((eventName) => {
