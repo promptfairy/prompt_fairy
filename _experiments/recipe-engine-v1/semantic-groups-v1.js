@@ -1,11 +1,13 @@
 (() => {
-  const MODULE_VERSION = "semantic-groups-v1.0.1";
+  const MODULE_VERSION = "semantic-groups-v1.0.2";
   const previousRender = render;
   const previousSplitPrompt = splitPrompt;
   const expandedGroups = new Set();
   const expandedFixtureManagers = new Set();
   let semanticFilter = "all";
   let viewportRestoreToken = 0;
+  let pendingInteractionViewport = null;
+  let pendingInteractionTimer = 0;
 
   const SEMANTIC_GROUPS = [
     { id: "character", zh: "人物設定", en: "CHARACTER", attribute: "高變動" },
@@ -32,8 +34,7 @@
     return "preserved";
   }
 
-  function activeControlIdentity() {
-    const active = document.activeElement;
+  function activeControlIdentity(active = document.activeElement) {
     if (!active) return null;
     const controlTypes = [
       ["fragmentText", "fragment-text"],
@@ -46,8 +47,8 @@
     return match ? { property: match[0], attribute: match[1], value: active.dataset[match[0]] } : null;
   }
 
-  function captureViewportState() {
-    const active = document.activeElement;
+  function captureViewportState(preferredControl = null) {
+    const active = preferredControl || document.activeElement;
     const fragmentCard = active?.closest?.("[data-fragment-card]");
     const filterBar = document.querySelector(".semantic-filter-tabs");
     let anchor = null;
@@ -67,9 +68,28 @@
       scrollY: window.scrollY || 0,
       filterScrollLeft: filterBar?.scrollLeft || 0,
       anchor,
-      activeControl: activeControlIdentity()
+      activeControl: activeControlIdentity(active)
     };
   }
+
+  function rememberInteractionViewport(event) {
+    const control = event.target?.closest?.([
+      "[data-fragment-text]",
+      "[data-fragment-category]",
+      "[data-fragment-enabled]",
+      "[data-fragment-locked]",
+      "[data-semantic-filter]"
+    ].join(","));
+    if (!control) return;
+
+    pendingInteractionViewport = captureViewportState(control);
+    window.clearTimeout(pendingInteractionTimer);
+    pendingInteractionTimer = window.setTimeout(() => {
+      pendingInteractionViewport = null;
+    }, 0);
+  }
+
+  document.addEventListener("click", rememberInteractionViewport, true);
 
   function restoreViewportState(viewport) {
     const token = ++viewportRestoreToken;
@@ -323,7 +343,7 @@
   }
 
   render = function semanticGroupsRender() {
-    const viewport = captureViewportState();
+    const viewport = pendingInteractionViewport || captureViewportState();
     previousRender();
     applySemanticGroups();
     applyFixtureManagers();
