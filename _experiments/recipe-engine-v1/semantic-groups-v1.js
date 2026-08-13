@@ -1,5 +1,5 @@
 (() => {
-  const MODULE_VERSION = "semantic-groups-v1.0.2";
+  const MODULE_VERSION = "semantic-groups-v1.0.3";
   const previousRender = render;
   const previousSplitPrompt = splitPrompt;
   const expandedGroups = new Set();
@@ -89,7 +89,9 @@
     }, 0);
   }
 
-  document.addEventListener("click", rememberInteractionViewport, true);
+  ["pointerdown", "click", "input", "change"].forEach((eventName) => {
+    document.addEventListener(eventName, rememberInteractionViewport, true);
+  });
 
   function restoreViewportState(viewport) {
     const token = ++viewportRestoreToken;
