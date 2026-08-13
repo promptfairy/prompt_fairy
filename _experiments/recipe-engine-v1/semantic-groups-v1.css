@@ -1,0 +1,277 @@
+.semantic-filter-tabs {
+  display: flex;
+  gap: 0.45rem;
+  overflow-x: auto;
+  padding: 0.1rem 0 0.35rem;
+  scrollbar-width: thin;
+}
+
+.semantic-filter {
+  flex: 0 0 auto;
+  border: 1px solid rgba(164, 178, 208, 0.16);
+  border-radius: 999px;
+  background: rgba(10, 17, 31, 0.58);
+  color: var(--text-muted, #9ba8c0);
+  padding: 0.45rem 0.7rem;
+  font: inherit;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+.semantic-filter span {
+  margin-left: 0.28rem;
+  color: var(--champagne, #d9c39b);
+}
+
+.semantic-filter:hover,
+.semantic-filter.active {
+  border-color: rgba(215, 192, 148, 0.52);
+  background: rgba(28, 39, 67, 0.82);
+  color: var(--text, #eef2fb);
+}
+
+.recipe-list.semantic-groups {
+  display: grid;
+  gap: 0.62rem;
+}
+
+.semantic-group {
+  overflow: clip;
+  border: 1px solid rgba(148, 166, 204, 0.16);
+  border-radius: 0.9rem;
+  background: linear-gradient(135deg, rgba(18, 27, 46, 0.82), rgba(10, 16, 29, 0.72));
+}
+
+.semantic-group[hidden] {
+  display: none;
+}
+
+.semantic-group > summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 4rem;
+  padding: 0.8rem 0.9rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.semantic-group > summary::-webkit-details-marker {
+  display: none;
+}
+
+.semantic-group > summary:hover {
+  background: rgba(79, 99, 150, 0.08);
+}
+
+.semantic-group-heading {
+  display: grid;
+  min-width: 0;
+  gap: 0.12rem;
+}
+
+.semantic-group-heading strong {
+  color: var(--text, #eef2fb);
+  font-size: 0.92rem;
+}
+
+.semantic-group-heading small {
+  color: var(--text-muted, #9ba8c0);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+}
+
+.semantic-group-count,
+.semantic-group-attribute {
+  white-space: nowrap;
+  border-radius: 999px;
+  padding: 0.28rem 0.5rem;
+  font-size: 0.68rem;
+}
+
+.semantic-group-count {
+  color: var(--text-muted, #9ba8c0);
+  background: rgba(117, 139, 186, 0.1);
+}
+
+.semantic-group-attribute {
+  color: var(--champagne, #d9c39b);
+  border: 1px solid rgba(215, 192, 148, 0.18);
+}
+
+.semantic-group-chevron {
+  color: var(--text-muted, #9ba8c0);
+  transition: transform 180ms ease;
+}
+
+.semantic-group[open] .semantic-group-chevron {
+  transform: rotate(180deg);
+}
+
+.semantic-group-content {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.75rem;
+  border-top: 1px solid rgba(148, 166, 204, 0.12);
+}
+
+.semantic-group-content .fragment {
+  margin: 0;
+}
+
+.preserved-note {
+  margin: 0;
+  border-left: 2px solid rgba(215, 192, 148, 0.5);
+  padding: 0.55rem 0.7rem;
+  color: var(--text-muted, #aab4c8);
+  background: rgba(215, 192, 148, 0.055);
+  font-size: 0.76rem;
+  line-height: 1.65;
+}
+
+.semantic-group-empty {
+  padding: 0.5rem;
+  color: var(--text-muted, #8e9ab1);
+  font-size: 0.74rem;
+}
+
+.fixture-compact-manager {
+  display: grid;
+  gap: 0.55rem;
+  border-top: 1px solid rgba(148, 166, 204, 0.12);
+  padding-top: 0.7rem;
+}
+
+.fixture-compact-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.7rem;
+}
+
+.fixture-compact-head > strong {
+  font-size: 0.82rem;
+}
+
+.fixture-compact-status {
+  color: var(--champagne, #d9c39b);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.fixture-selected-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  min-height: 1.45rem;
+}
+
+.fixture-chip {
+  max-width: 9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border: 1px solid rgba(148, 166, 204, 0.16);
+  border-radius: 999px;
+  padding: 0.26rem 0.52rem;
+  color: var(--text-muted, #aeb8ca);
+  background: rgba(101, 124, 176, 0.08);
+  font-size: 0.7rem;
+}
+
+.fixture-chip-more {
+  color: var(--champagne, #d9c39b);
+}
+
+.fixture-manage-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border: 0;
+  border-radius: 0.55rem;
+  padding: 0.45rem 0.55rem;
+  color: var(--text-muted, #aeb8ca);
+  background: rgba(93, 113, 160, 0.08);
+  font: inherit;
+  font-size: 0.74rem;
+  cursor: pointer;
+}
+
+.fixture-manage-toggle:hover {
+  color: var(--text, #eef2fb);
+  background: rgba(93, 113, 160, 0.14);
+}
+
+.fixture-manage-toggle span {
+  transition: transform 180ms ease;
+}
+
+.fixture-compact-manager.is-open .fixture-manage-toggle span {
+  transform: rotate(180deg);
+}
+
+.fixture-compact-list {
+  display: grid;
+  gap: 0.28rem;
+  max-height: 280px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.15rem 0.3rem 0.15rem 0;
+  scrollbar-width: thin;
+}
+
+.fixture-compact-list[hidden] {
+  display: none;
+}
+
+.fixture-compact-list .fixture-choice {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 0.55rem;
+  margin: 0;
+  border: 0;
+  border-radius: 0.55rem;
+  padding: 0.5rem 0.55rem;
+  background: rgba(13, 21, 37, 0.62);
+}
+
+.fixture-compact-list .fixture-choice > span {
+  display: grid;
+  gap: 0.12rem;
+  min-width: 0;
+}
+
+.fixture-compact-list .fixture-choice strong {
+  overflow: hidden;
+  color: var(--text, #e7ecf7);
+  font-size: 0.76rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fixture-compact-list .fixture-choice small {
+  overflow: hidden;
+  color: var(--text-muted, #8f9bb2);
+  font-size: 0.68rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .semantic-group > summary {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .semantic-group-count,
+  .semantic-group-attribute {
+    grid-row: 2;
+  }
+
+  .semantic-group-chevron {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
