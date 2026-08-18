@@ -1,0 +1,70 @@
+/* Prompt Fairy UI review fixes v4
+   - Keep inner-page left anchors stable when switching between Workspace and libraries.
+   - Keep library actions beside the heading instead of drifting to the far right.
+   - Preserve the existing compact library content width while anchoring it to the shared shell.
+*/
+
+:root {
+  --inner-page-shell-max: 1540px;
+  --library-content-max: 1180px;
+  --settings-content-max: 980px;
+  --library-heading-column: 560px;
+}
+
+@media (min-width: 761px) {
+  /* Workspace already uses the wide-page shell. Libraries/settings now share that same outer anchor. */
+  .library-page.page-width,
+  .settings-page.page-width.narrow-page {
+    width: min(var(--inner-page-shell-max), calc(100% - 32px));
+    margin-inline: auto;
+  }
+
+  /* Keep the actual collection readable; widen the shell, not the cards. */
+  .library-page .library-toolbar,
+  .library-page .collection-grid {
+    width: min(100%, var(--library-content-max));
+  }
+
+  .settings-page .settings-grid {
+    width: min(100%, var(--settings-content-max));
+  }
+
+  /* Action + count follow the title block instead of being pushed to the far-right edge. */
+  .library-page .page-header {
+    grid-template-columns: minmax(0, var(--library-heading-column)) max-content minmax(0, 1fr);
+    justify-content: start;
+    column-gap: 28px;
+  }
+
+  .library-page .page-header-actions {
+    grid-column: 2;
+    justify-self: start;
+    align-self: start;
+    padding-top: 5px;
+  }
+
+  /* Settings has metadata but no primary action; keep its badge on the same stable rhythm. */
+  .settings-page .page-header {
+    grid-template-columns: minmax(0, var(--library-heading-column)) max-content minmax(0, 1fr);
+    justify-content: start;
+    column-gap: 28px;
+  }
+
+  .settings-page .page-header-actions {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 760px) {
+  /* Mobile keeps the already-approved left-aligned action row. */
+  .library-page.page-width,
+  .settings-page.page-width.narrow-page {
+    width: min(100% - 24px, 720px);
+  }
+
+  .library-page .page-header-actions,
+  .settings-page .page-header-actions {
+    justify-content: flex-start;
+  }
+}
