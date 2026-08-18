@@ -1,5 +1,6 @@
 /* Prompt Fairy UI review fixes v3
    - Restore readable Mojito home hero title contrast.
+   - Restore readable Mojito hero metadata pills.
 */
 
 html[data-theme="mojito"] .hero-copy h1 {
@@ -11,4 +12,16 @@ html[data-theme="mojito"] .hero-copy h1 span {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+html[data-theme="mojito"] .hero-meta span {
+  border-color: rgba(49, 159, 156, 0.18);
+  background: rgba(255, 255, 255, 0.74);
+  color: #48656b !important;
+  box-shadow: 0 5px 16px rgba(58, 132, 126, 0.07);
+}
+
+html[data-theme="mojito"] .hero-meta i {
+  background: #55c4ba;
+  box-shadow: 0 0 10px rgba(85, 196, 186, 0.42);
 }
