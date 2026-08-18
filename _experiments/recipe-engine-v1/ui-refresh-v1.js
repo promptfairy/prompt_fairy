@@ -77,7 +77,7 @@
         <a class="credit-link" href="https://www.threads.com/@yenyenyamino" target="_blank" rel="noopener noreferrer">
           <span>琰</span><small>@yenyenyamino ↗</small>
         </a>
-        <span class="credit-name-static"><span>執</span><small>Prompt Fairy</small></span>
+        <span class="credit-name-static"><span>執</span></span>
       </div>
     `;
 
