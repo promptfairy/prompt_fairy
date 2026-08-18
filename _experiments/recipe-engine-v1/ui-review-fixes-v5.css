@@ -1,0 +1,52 @@
+/* Prompt Fairy UI review fixes v5
+   Desktop balance pass:
+   - Keep every inner page on the same wide shell.
+   - Let library toolbars / collections use that shell instead of stopping at 1180px on the left.
+   - Keep Workspace metadata beside the title block instead of floating at the far-right edge.
+   - Preserve the approved mobile stack and action geometry.
+*/
+
+@media (min-width: 761px) {
+  /* v4 established the shared outer anchor; v5 lets the actual library content use it. */
+  .library-page .library-toolbar,
+  .library-page .collection-grid {
+    width: 100%;
+    max-width: none;
+  }
+
+  /* Workspace follows the same heading rhythm as the libraries. */
+  .workspace-page .page-header,
+  .library-page .page-header,
+  .settings-page .page-header {
+    grid-template-columns: minmax(0, var(--library-heading-column, 560px)) max-content minmax(0, 1fr);
+    justify-content: start;
+    column-gap: 28px;
+  }
+
+  .workspace-page .page-header-actions,
+  .library-page .page-header-actions,
+  .settings-page .page-header-actions {
+    grid-column: 2;
+    justify-self: start;
+    align-self: start;
+    padding-top: 5px;
+  }
+
+  /* The collection itself owns the desktop width; cards stay in the existing 3-column rhythm. */
+  .library-page .collection-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Empty states should read as a centered full-width state, not a left-column panel. */
+  .library-page .collection-empty {
+    width: 100%;
+  }
+}
+
+@media (max-width: 760px) {
+  /* No desktop override should leak into the approved mobile layout. */
+  .library-page .library-toolbar,
+  .library-page .collection-grid {
+    width: 100%;
+  }
+}
