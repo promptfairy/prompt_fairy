@@ -83,7 +83,7 @@
 
     let output = input.slice(0, bodyStart) + scrubbed.text + input.slice(bodyEnd);
 
-    output = output.replace(/^\[A[AB]\]\s+gender branch:\s*(?:female|male)\s*$\n?/gmi, "");
+    output = output.replace(/^\[(?:AA|BB)\]\s+gender branch:\s*(?:female|male)\s*$\n?/gmi, "");
 
     if (output.includes("[IDENTITY PATCH]")) {
       output = output.replace(
