@@ -1,0 +1,227 @@
+/* Prompt Fairy UI review fixes v1
+   Review goals:
+   1) Every inner page uses the same three-line title hierarchy.
+   2) Action controls share one rounded-rectangle geometry.
+   3) Pills are reserved for categories, filters, status and tags.
+*/
+
+:root {
+  --action-height: 42px;
+  --action-radius: 12px;
+  --compact-action-height: 36px;
+  --compact-action-radius: 10px;
+  --mobile-action-height: 44px;
+  --pill-radius: 999px;
+  --page-local-title-line: 1.7rem;
+  --page-description-line: 3.3rem;
+}
+
+/* ---------- Stable three-line page heading ---------- */
+.page-heading-copy {
+  display: grid;
+  grid-template-rows: var(--page-title-line) calc(var(--page-local-title-line) + var(--page-description-line));
+  align-content: start;
+}
+
+.page-local-title {
+  min-height: calc(var(--page-local-title-line) + var(--page-description-line));
+  margin: var(--page-subtitle-gap) 0 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: var(--page-local-title-line) var(--page-description-line);
+  align-items: start;
+  gap: 2px;
+  line-height: 1.55;
+}
+
+.page-local-title strong {
+  grid-row: 1;
+  align-self: start;
+  display: block;
+  color: var(--text-soft);
+  font-family: var(--font-zh);
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: var(--page-local-title-line);
+}
+
+/* The old inline separator is no longer needed once subtitle and description are separate rows. */
+.page-local-title > span:first-of-type {
+  display: none;
+}
+
+.page-local-title > span:last-of-type {
+  grid-row: 2;
+  display: block;
+  max-width: 62ch;
+  color: var(--muted);
+  font-family: var(--font-zh), var(--font-en);
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+.page-header {
+  min-height: 190px;
+}
+
+/* ---------- Control geometry ---------- */
+.btn {
+  min-height: var(--action-height);
+  border-radius: var(--action-radius);
+  padding: 9px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.2;
+}
+
+.btn.compact {
+  min-height: var(--compact-action-height);
+  border-radius: var(--compact-action-radius);
+  padding: 7px 11px;
+}
+
+/* Header metadata sits beside an action, so it follows the same box geometry rather than pill geometry. */
+.header-badge {
+  min-height: var(--action-height);
+  border-radius: var(--action-radius);
+  padding: 0 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.page-header-actions {
+  min-height: var(--action-height);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.page-header-actions > .btn,
+.page-header-actions > .header-badge {
+  height: var(--action-height);
+}
+
+/* Empty-state primary action should look identical to every other primary action. */
+.collection-empty .btn,
+.compact-empty + .btn {
+  min-height: var(--action-height);
+  border-radius: var(--action-radius);
+}
+
+/* Icon-only controls use the same corner language but remain square by function. */
+.theme-toggle,
+.modal-close,
+.star-button,
+.icon-danger {
+  border-radius: var(--action-radius);
+}
+
+/* Pills are intentionally reserved for filtering / taxonomy / status. */
+.filter-chip,
+.ingredient-tab,
+.category-pill,
+.status,
+.tag-row span,
+.fixture-list span,
+.quiet-tag,
+.source-pill,
+.hero-meta span {
+  border-radius: var(--pill-radius);
+}
+
+/* Search/input containers are fields, not pills. */
+.search-box,
+textarea,
+input,
+select,
+.check-line,
+.assignment-card,
+.pick-card {
+  border-radius: var(--action-radius);
+}
+
+/* ---------- Mobile consistency ---------- */
+@media (max-width: 760px) {
+  :root {
+    --page-title-line: 2.65rem;
+    --page-local-title-line: 1.65rem;
+    --page-description-line: 3.45rem;
+  }
+
+  .page-header {
+    min-height: 208px;
+    padding: 30px 2px 20px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-items: start;
+    gap: 13px;
+  }
+
+  .page-header h1 {
+    font-size: clamp(1.55rem, 7vw, 1.9rem);
+    line-height: 1;
+    letter-spacing: 0.025em;
+  }
+
+  .page-heading-copy {
+    grid-template-rows: var(--page-title-line) calc(var(--page-local-title-line) + var(--page-description-line));
+  }
+
+  .page-local-title strong {
+    font-size: 0.82rem;
+  }
+
+  .page-local-title > span:last-of-type {
+    max-width: 34em;
+    font-size: 0.78rem;
+    line-height: 1.65;
+  }
+
+  .page-header-actions {
+    width: 100%;
+    min-height: var(--mobile-action-height);
+    justify-content: flex-start;
+    gap: 9px;
+  }
+
+  .page-header-actions > .btn,
+  .page-header-actions > .header-badge,
+  .page-header-actions .btn:only-child {
+    width: auto;
+    height: var(--mobile-action-height);
+    min-height: var(--mobile-action-height);
+    border-radius: var(--action-radius);
+  }
+
+  .btn:not(.compact) {
+    min-height: var(--mobile-action-height);
+  }
+
+  .collection-empty .btn {
+    min-height: var(--mobile-action-height);
+  }
+
+  /* Every bottom-nav target owns the same box, selected or not. */
+  .mobile-nav a {
+    min-height: 58px;
+    grid-template-rows: 22px 17px;
+    align-content: center;
+    border-radius: var(--action-radius);
+    padding: 6px 3px;
+  }
+
+  .mobile-nav a.active {
+    min-height: 58px;
+  }
+}
+
+@media (max-width: 390px) {
+  .page-header h1 {
+    font-size: clamp(1.45rem, 6.8vw, 1.72rem);
+  }
+}
