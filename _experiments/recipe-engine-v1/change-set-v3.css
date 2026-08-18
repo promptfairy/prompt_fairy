@@ -1,0 +1,321 @@
+.change-set-v3 {
+  display: grid;
+  gap: 14px;
+  margin: 4px 0 16px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+html[data-theme="mojito"] .change-set-v3 {
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.change-set-v3-head,
+.change-set-v3-scope-head,
+.change-set-v3-actions,
+.change-set-v3-advanced > summary {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.change-set-v3-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.change-set-v3-kicker,
+.change-set-v3-scope-head small {
+  color: var(--muted);
+  font-family: var(--font-en);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.change-set-v3-title,
+.change-set-v3-scope-head strong {
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.change-set-v3-copy p,
+.change-set-v3-scope-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.change-set-v3-clear,
+.change-set-v3-secondary {
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-soft);
+  cursor: pointer;
+}
+
+.change-set-v3-clear:hover,
+.change-set-v3-secondary:hover {
+  border-color: var(--line-strong);
+  color: var(--text);
+}
+
+.change-set-v3-operations {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.change-set-v3-operation {
+  min-width: 0;
+  min-height: 74px;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.025);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+}
+
+.change-set-v3-operation:hover {
+  transform: translateY(-1px);
+  border-color: var(--line-strong);
+}
+
+.change-set-v3-operation[aria-pressed="true"] {
+  border-color: rgba(143, 117, 255, 0.62);
+  background: rgba(143, 117, 255, 0.12);
+}
+
+html[data-theme="mojito"] .change-set-v3-operation {
+  background: rgba(255, 255, 255, 0.64);
+}
+
+html[data-theme="mojito"] .change-set-v3-operation[aria-pressed="true"] {
+  border-color: rgba(72, 177, 151, 0.72);
+  background: rgba(72, 177, 151, 0.13);
+}
+
+.change-set-v3-operation strong,
+.change-set-v3-operation small,
+.change-set-v3-operation em {
+  display: block;
+}
+
+.change-set-v3-operation strong {
+  margin-bottom: 2px;
+  color: var(--text);
+  font-size: 0.88rem;
+}
+
+.change-set-v3-operation small {
+  margin-bottom: 5px;
+  color: var(--muted);
+  font-family: var(--font-en);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.change-set-v3-operation em {
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-style: normal;
+  line-height: 1.35;
+}
+
+.change-set-v3-empty,
+.change-set-v3-editor {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+.change-set-v3-empty {
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.change-set-v3-empty strong {
+  color: var(--text-soft);
+}
+
+.change-set-v3-editor {
+  display: grid;
+  gap: 10px;
+}
+
+.change-set-v3-scope-head {
+  align-items: center;
+}
+
+.change-set-v3-scope-head > div {
+  display: grid;
+  gap: 2px;
+}
+
+.change-set-v3-scope-head > span {
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
+.change-set-v3-scope-note b {
+  color: var(--text-soft);
+  font-weight: 700;
+}
+
+.change-set-v3-editor textarea {
+  width: 100%;
+  min-height: 178px;
+  resize: vertical;
+  padding: 12px 13px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  outline: none;
+  background: var(--field-refresh, rgba(7, 12, 20, 0.65));
+  color: var(--text);
+  font-family: var(--font-ui);
+  line-height: 1.65;
+}
+
+.change-set-v3-editor textarea:focus {
+  border-color: rgba(120, 215, 232, 0.42);
+  background: var(--field-focus-refresh, rgba(8, 14, 23, 0.88));
+  box-shadow: 0 0 0 3px rgba(120, 215, 232, 0.08);
+}
+
+html[data-theme="mojito"] .change-set-v3-editor textarea {
+  background: rgba(255, 255, 255, 0.78);
+}
+
+html[data-theme="mojito"] .change-set-v3-editor textarea:focus {
+  border-color: rgba(72, 177, 151, 0.46);
+  box-shadow: 0 0 0 3px rgba(72, 177, 151, 0.09);
+}
+
+.change-set-v3-actions {
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.change-set-v3-apply {
+  min-height: 40px;
+}
+
+.change-set-v3-status {
+  min-height: 20px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.change-set-v3-advanced {
+  margin-top: 2px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.change-set-v3-advanced > summary {
+  align-items: center;
+  padding: 12px 14px;
+  color: var(--muted);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.change-set-v3-advanced > summary::-webkit-details-marker {
+  display: none;
+}
+
+.change-set-v3-advanced > summary span:first-child {
+  display: grid;
+  gap: 2px;
+}
+
+.change-set-v3-advanced > summary strong {
+  color: var(--text-soft);
+  font-family: var(--font-en);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+.change-set-v3-advanced > summary small,
+.change-set-v3-advanced > summary span:last-child {
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.change-set-v3-advanced > summary::after {
+  content: "＋";
+  margin-left: auto;
+  color: var(--muted);
+}
+
+.change-set-v3-advanced[open] > summary::after {
+  content: "－";
+}
+
+.change-set-v3-advanced-body {
+  display: grid;
+  gap: 12px;
+  padding: 0 14px 14px;
+  border-top: 1px solid var(--line);
+}
+
+.change-set-v3-advanced-body .ingredient-tabs {
+  margin-top: 12px;
+}
+
+@media (max-width: 880px) {
+  .change-set-v3-operations {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .change-set-v3 {
+    padding: 13px;
+    border-radius: 15px;
+  }
+
+  .change-set-v3-head,
+  .change-set-v3-scope-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .change-set-v3-operations {
+    grid-template-columns: 1fr;
+  }
+
+  .change-set-v3-operation {
+    min-height: 66px;
+  }
+
+  .change-set-v3-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .change-set-v3-actions > button {
+    width: 100%;
+  }
+
+  .change-set-v3-editor textarea {
+    min-height: 150px;
+  }
+}
