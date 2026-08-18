@@ -1,0 +1,131 @@
+/* Prompt Fairy UI review fixes v6
+   Stable desktop rails:
+   - Workspace is the reference frame for every inner page.
+   - Header actions share one right edge on desktop.
+   - Library toolbars and cards reuse Workspace column tracks.
+   - Item count never changes the horizontal tracks; empty columns simply remain empty.
+   - Responsive breakpoints mirror Workspace so page switching does not reflow sideways.
+*/
+
+@media (min-width: 761px) {
+  /* One shared outer frame. */
+  .workspace-page.wide-page,
+  .library-page.page-width,
+  .settings-page.page-width.narrow-page {
+    width: min(1540px, calc(100% - 32px));
+    margin-inline: auto;
+  }
+
+  /* Keep all desktop header metadata/actions on the same right rail. */
+  .workspace-page .page-header,
+  .library-page .page-header,
+  .settings-page .page-header {
+    grid-template-columns: minmax(0, 1fr) max-content;
+    justify-content: stretch;
+    column-gap: 24px;
+  }
+
+  .workspace-page .page-heading-copy,
+  .library-page .page-heading-copy,
+  .settings-page .page-heading-copy {
+    grid-column: 1;
+  }
+
+  .workspace-page .page-header-actions,
+  .library-page .page-header-actions,
+  .settings-page .page-header-actions {
+    grid-column: 2;
+    justify-self: end;
+    align-self: start;
+    padding-top: 5px;
+  }
+
+  /* Libraries use the full shared frame, not a content-width island. */
+  .library-page .library-toolbar,
+  .library-page .collection-grid,
+  .settings-page .settings-grid {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+/* Desktop: exact same three rails as Workspace. */
+@media (min-width: 1181px) {
+  .library-page .collection-grid,
+  .library-page .library-toolbar {
+    display: grid;
+    grid-template-columns: minmax(270px, 0.82fr) minmax(390px, 1.23fr) minmax(300px, 0.92fr);
+    column-gap: 14px;
+  }
+
+  .library-page .collection-grid {
+    row-gap: 14px;
+  }
+
+  .library-page .library-toolbar > .search-box {
+    grid-column: 1;
+    width: 100%;
+  }
+
+  .library-page .library-toolbar > .filter-row {
+    grid-column: 2 / 4;
+    justify-self: end;
+  }
+
+  .library-page .library-toolbar.single > .search-box {
+    grid-column: 1;
+  }
+}
+
+/* Mid-size desktop/tablet: mirror Workspace's two-column breakpoint. */
+@media (min-width: 761px) and (max-width: 1180px) {
+  .library-page .collection-grid,
+  .library-page .library-toolbar {
+    display: grid;
+    grid-template-columns: minmax(270px, 0.85fr) minmax(390px, 1.15fr);
+    column-gap: 14px;
+  }
+
+  .library-page .collection-grid {
+    row-gap: 14px;
+  }
+
+  .library-page .library-toolbar > .search-box {
+    grid-column: 1;
+    width: 100%;
+  }
+
+  .library-page .library-toolbar > .filter-row {
+    grid-column: 2;
+    justify-self: end;
+  }
+
+  .library-page .library-toolbar.single > .search-box {
+    grid-column: 1;
+  }
+}
+
+/* Full-width states span the rails without changing them. */
+.library-page .collection-empty {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+@media (max-width: 760px) {
+  /* Restore the approved mobile stack; desktop rail rules stop here. */
+  .library-page .library-toolbar {
+    display: flex;
+  }
+
+  .library-page .collection-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .workspace-page .page-header-actions,
+  .library-page .page-header-actions,
+  .settings-page .page-header-actions {
+    justify-self: start;
+    justify-content: flex-start;
+  }
+}
