@@ -4,6 +4,12 @@
   const THEME_KEY = "prompt-fairy-theme-v1";
   const DARK = "arcane";
   const LIGHT = "mojito";
+  const SECOND_PERSON_COPY_SELECTORS = [
+    ".hero-copy > p",
+    ".privacy-card h2",
+    ".privacy-card > p",
+    ".compose-panel .step-title p"
+  ];
 
   function readTheme() {
     const saved = localStorage.getItem(THEME_KEY);
@@ -84,9 +90,20 @@
     settingsGrid.append(article);
   }
 
+  function standardizeSecondPersonCopy() {
+    SECOND_PERSON_COPY_SELECTORS.forEach((selector) => {
+      document.querySelectorAll(selector).forEach((element) => {
+        if (element.textContent.includes("妳")) {
+          element.textContent = element.textContent.replaceAll("妳", "你");
+        }
+      });
+    });
+  }
+
   function syncEnhancements() {
     ensureProductActions();
     ensureCredits();
+    standardizeSecondPersonCopy();
   }
 
   function updateFairyLight(event) {
