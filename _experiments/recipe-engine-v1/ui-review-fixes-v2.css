@@ -1,0 +1,67 @@
+/* Prompt Fairy UI review fixes v2
+   Follow-up review:
+   - Keep the primary header action anchored first.
+   - Keep header primary actions the same width across libraries.
+   - Give Mojito primary actions a lighter Tiffany-green / white treatment.
+   - Support the simplified, user-extensible material labels layer.
+*/
+
+:root {
+  --header-primary-action-width: 132px;
+}
+
+/* Stable header action rhythm: action first, count / metadata second. */
+.page-header-actions > .btn {
+  order: 1;
+  flex: 0 0 var(--header-primary-action-width);
+  width: var(--header-primary-action-width);
+}
+
+.page-header-actions > .header-badge {
+  order: 2;
+  flex: 0 0 auto;
+}
+
+/* Mojito: primary actions should feel cool, light and clean rather than heavy blue-green. */
+html[data-theme="mojito"] .btn.primary {
+  border-color: rgba(42, 172, 161, 0.34);
+  background: linear-gradient(135deg, #67d3c8, #55c4ba);
+  color: #ffffff;
+  text-shadow: 0 1px 1px rgba(24, 105, 99, 0.16);
+  box-shadow: 0 10px 24px rgba(72, 184, 174, 0.17);
+}
+
+html[data-theme="mojito"] .btn.primary:hover:not(:disabled) {
+  border-color: rgba(35, 157, 147, 0.42);
+  background: linear-gradient(135deg, #72dbd0, #5bc9bf);
+  color: #ffffff;
+  box-shadow: 0 12px 28px rgba(72, 184, 174, 0.23);
+}
+
+html[data-theme="mojito"] .btn.primary:active:not(:disabled) {
+  background: linear-gradient(135deg, #59c8bd, #49b8ae);
+}
+
+/* The custom material label editor replaces the old fixed category select visually. */
+.material-label-field select[name="category"][hidden] {
+  display: none !important;
+}
+
+.material-label-field small {
+  margin-top: 1px;
+}
+
+.category-pill[data-empty-label="true"] {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --header-primary-action-width: 136px;
+  }
+
+  .page-header-actions > .btn {
+    flex-basis: var(--header-primary-action-width);
+    width: var(--header-primary-action-width);
+  }
+}
