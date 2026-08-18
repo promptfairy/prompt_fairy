@@ -1,0 +1,211 @@
+.change-set-v2 {
+  display: grid;
+  gap: 14px;
+  margin: 4px 0 16px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+html[data-theme="mojito"] .change-set-v2 {
+  border-color: rgba(29, 88, 75, 0.14);
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.change-set-v2-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.change-set-v2-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.change-set-v2-kicker,
+.change-set-v2-request span small {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  opacity: 0.55;
+}
+
+.change-set-v2-title {
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.change-set-v2-help {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  opacity: 0.68;
+}
+
+.change-set-v2-clear {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+html[data-theme="mojito"] .change-set-v2-clear {
+  border-color: rgba(29, 88, 75, 0.16);
+}
+
+.change-set-v2-clear[hidden] {
+  display: none;
+}
+
+.change-set-v2-operations {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.change-set-v2-operation {
+  min-width: 0;
+  min-height: 74px;
+  padding: 11px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.025);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+}
+
+.change-set-v2-operation:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.change-set-v2-operation[aria-pressed="true"] {
+  border-color: rgba(143, 117, 255, 0.62);
+  background: rgba(143, 117, 255, 0.12);
+}
+
+html[data-theme="mojito"] .change-set-v2-operation {
+  border-color: rgba(29, 88, 75, 0.13);
+  background: rgba(255, 255, 255, 0.58);
+}
+
+html[data-theme="mojito"] .change-set-v2-operation:hover {
+  border-color: rgba(29, 88, 75, 0.26);
+}
+
+html[data-theme="mojito"] .change-set-v2-operation[aria-pressed="true"] {
+  border-color: rgba(72, 177, 151, 0.72);
+  background: rgba(72, 177, 151, 0.13);
+}
+
+.change-set-v2-operation strong,
+.change-set-v2-operation small,
+.change-set-v2-operation em {
+  display: block;
+}
+
+.change-set-v2-operation strong {
+  margin-bottom: 2px;
+  font-size: 0.88rem;
+}
+
+.change-set-v2-operation small {
+  margin-bottom: 5px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  opacity: 0.45;
+}
+
+.change-set-v2-operation em {
+  font-size: 0.74rem;
+  font-style: normal;
+  line-height: 1.35;
+  opacity: 0.66;
+}
+
+.change-set-v2-request {
+  display: grid;
+  gap: 7px;
+}
+
+.change-set-v2-request > span {
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.change-set-v2-request textarea {
+  width: 100%;
+  min-height: 76px;
+  resize: vertical;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.12);
+  color: inherit;
+  font: inherit;
+  line-height: 1.5;
+}
+
+html[data-theme="mojito"] .change-set-v2-request textarea {
+  border-color: rgba(29, 88, 75, 0.14);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.change-set-v2-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 22px;
+  font-size: 0.76rem;
+  opacity: 0.68;
+}
+
+.change-set-v2-status strong {
+  opacity: 1;
+}
+
+.fragment[data-change-set-hidden="true"] {
+  display: none !important;
+}
+
+@media (max-width: 880px) {
+  .change-set-v2-operations {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .change-set-v2 {
+    padding: 13px;
+    border-radius: 15px;
+  }
+
+  .change-set-v2-head {
+    align-items: center;
+  }
+
+  .change-set-v2-operations {
+    grid-template-columns: 1fr;
+  }
+
+  .change-set-v2-operation {
+    min-height: 66px;
+  }
+
+  .change-set-v2-status {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
