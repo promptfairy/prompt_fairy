@@ -165,7 +165,7 @@
           pill.dataset.emptyLabel = "false";
           pill.hidden = false;
         } else {
-          pill.textContent = "";
+          if (pill.textContent) pill.textContent = "";
           pill.dataset.emptyLabel = "true";
           pill.hidden = true;
         }
@@ -181,7 +181,7 @@
       const small = input.closest(".pick-card")?.querySelector("small");
       if (!material || !small) return;
       const label = displayLabel(id, material.category);
-      small.textContent = label;
+      if (small.textContent !== label) small.textContent = label;
       small.hidden = !label;
     });
   }
