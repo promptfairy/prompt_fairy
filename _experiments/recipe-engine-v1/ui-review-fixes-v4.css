@@ -2,6 +2,7 @@
    - Keep inner-page left anchors stable when switching between Workspace and libraries.
    - Keep library actions beside the heading instead of drifting to the far right.
    - Preserve the existing compact library content width while anchoring it to the shared shell.
+   - Keep material-card favorite controls pinned to the same top-right anchor.
 */
 
 :root {
@@ -9,6 +10,12 @@
   --library-content-max: 1180px;
   --settings-content-max: 980px;
   --library-heading-column: 560px;
+}
+
+/* A material without a visible category label leaves the star as the only topline child.
+   margin-left:auto keeps that single child at the same right edge as labeled cards. */
+.material-card .card-topline .star-button {
+  margin-left: auto;
 }
 
 @media (min-width: 761px) {
