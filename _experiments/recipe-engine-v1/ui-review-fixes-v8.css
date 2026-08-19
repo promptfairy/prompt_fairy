@@ -1,0 +1,182 @@
+/* Prompt Fairy UI review fixes v8
+   One fixed inner-page frame on desktop:
+   - left top: English title + Chinese subtitle + description
+   - left bottom: primary action + metadata
+   - right top: search, when present
+   - right bottom: filter / tag chips, when present
+   - the content area always begins below the same shared header height
+   The white review box/divider is conceptual only; no visible border is drawn.
+*/
+
+@media (min-width: 761px) {
+  .workspace-page .page-header,
+  .library-page .page-header,
+  .settings-page .page-header {
+    height: 232px;
+    min-height: 232px;
+    padding: 30px 2px 24px;
+    margin: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(340px, 420px);
+    grid-template-rows: minmax(0, 1fr) var(--action-height);
+    column-gap: 32px;
+    row-gap: 12px;
+    align-items: start;
+    justify-content: stretch;
+  }
+
+  .workspace-page .page-heading-copy,
+  .library-page .page-heading-copy,
+  .settings-page .page-heading-copy {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+    display: grid;
+    grid-template-rows: var(--page-title-line) calc(var(--page-local-title-line) + var(--page-description-line));
+    align-content: start;
+    align-items: start;
+  }
+
+  .workspace-page .page-header-actions,
+  .library-page .page-header-actions,
+  .settings-page .page-header-actions {
+    position: static;
+    grid-column: 1;
+    grid-row: 2;
+    align-self: end;
+    justify-self: start;
+    width: auto;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    justify-content: flex-start;
+  }
+
+  .page-header-search {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+    justify-self: end;
+    width: 100%;
+    max-width: 420px;
+    min-width: 0;
+  }
+
+  .page-header-search .search-box {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+
+  .page-header-tags {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: end;
+    justify-self: stretch;
+    min-width: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+
+  .page-header-tags .filter-row {
+    width: 100%;
+    margin: 0;
+    justify-content: flex-end;
+  }
+
+  /* Empty slots remain part of the grid, so missing search/tags never move
+     the left column or the content start line. */
+  .page-header-search:empty,
+  .page-header-tags:empty {
+    visibility: hidden;
+  }
+
+  /* Once search / filters are lifted into the shared header, the old toolbar
+     must not reserve an extra row above the functional content. */
+  .library-page .library-toolbar.header-relocated {
+    display: none !important;
+    width: 0;
+    height: 0;
+    min-height: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden;
+  }
+
+  /* Every functional area begins immediately after the same 232px header. */
+  .workspace-page .workspace-grid,
+  .library-page .collection-grid,
+  .settings-page .settings-grid {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  /* Mobile keeps the already-approved action-first reading order. */
+  .workspace-page .page-header,
+  .library-page .page-header,
+  .settings-page .page-header {
+    height: auto;
+    min-height: 0;
+    padding: 30px 2px 20px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto;
+    gap: 12px;
+    align-items: start;
+  }
+
+  .workspace-page .page-heading-copy,
+  .library-page .page-heading-copy,
+  .settings-page .page-heading-copy {
+    grid-column: 1;
+    grid-row: 1;
+    display: grid;
+    grid-template-rows: var(--page-title-line) calc(var(--page-local-title-line) + var(--page-description-line));
+  }
+
+  .workspace-page .page-header-actions,
+  .library-page .page-header-actions,
+  .settings-page .page-header-actions {
+    position: static;
+    grid-column: 1;
+    grid-row: 2;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    justify-self: start;
+    justify-content: flex-start;
+  }
+
+  .page-header-search {
+    grid-column: 1;
+    grid-row: 3;
+    width: 100%;
+  }
+
+  .page-header-search .search-box {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+
+  .page-header-tags {
+    grid-column: 1;
+    grid-row: 4;
+    width: 100%;
+  }
+
+  .page-header-tags .filter-row {
+    justify-content: flex-start;
+  }
+
+  .page-header-search:empty,
+  .page-header-tags:empty {
+    display: none;
+  }
+
+  .library-page .library-toolbar.header-relocated {
+    display: none !important;
+  }
+}
