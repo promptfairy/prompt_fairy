@@ -1,0 +1,17 @@
+/* Prompt Fairy UI review fixes v9
+   Final desktop rail stabilizer:
+   - Reserve the vertical scrollbar gutter on every page.
+   - Empty/short libraries and long workspace/material pages therefore share
+     the same viewport content width and centered shell X anchor.
+*/
+
+html {
+  scrollbar-gutter: stable;
+}
+
+/* Fallback for engines that do not support scrollbar-gutter. */
+@supports not (scrollbar-gutter: stable) {
+  html {
+    overflow-y: scroll;
+  }
+}
