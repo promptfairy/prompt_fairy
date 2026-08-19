@@ -1,0 +1,33 @@
+.fairy-fill-guide {
+  display: grid;
+  gap: 3px;
+  padding: 11px 12px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 12px;
+  background: rgba(120, 215, 232, 0.045);
+}
+
+.fairy-fill-guide strong {
+  color: var(--text-soft);
+  font-size: 0.78rem;
+}
+
+.fairy-fill-guide span,
+.fairy-input-hint {
+  color: var(--muted);
+  font-size: 0.73rem;
+  line-height: 1.55;
+}
+
+.fairy-replacement-field {
+  display: grid;
+  gap: 7px;
+}
+
+.fairy-input-hint {
+  display: block;
+}
+
+html[data-theme="mojito"] .fairy-fill-guide {
+  background: rgba(72, 177, 151, 0.065);
+}
