@@ -1,0 +1,149 @@
+/* Prompt Fairy UI review fixes v7
+   One inner-page header contract:
+   - English title / Chinese subtitle / description stay on the left.
+   - Primary action + metadata sit directly below the description.
+   - Prompt / Character search moves into the former desktop right action rail.
+   - Search presence must not change the left action Y anchor.
+   - Mobile keeps action-first ordering on the left.
+*/
+
+@media (min-width: 1181px) {
+  .workspace-page .page-header,
+  .library-page .page-header,
+  .settings-page .page-header {
+    display: grid;
+    grid-template-columns: minmax(270px, 0.82fr) minmax(390px, 1.23fr) minmax(300px, 0.92fr);
+    column-gap: 14px;
+    align-items: start;
+  }
+
+  .workspace-page .page-heading-copy,
+  .library-page .page-heading-copy,
+  .settings-page .page-heading-copy {
+    grid-column: 1 / 3;
+    min-width: 0;
+  }
+
+  .workspace-page .page-header-utility,
+  .library-page .page-header-utility,
+  .settings-page .page-header-utility {
+    grid-column: 3;
+    grid-row: 1;
+    width: 100%;
+    min-width: 0;
+    justify-self: stretch;
+    align-self: start;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1180px) {
+  .workspace-page .page-header,
+  .library-page .page-header,
+  .settings-page .page-header {
+    display: grid;
+    grid-template-columns: minmax(270px, 0.85fr) minmax(390px, 1.15fr);
+    column-gap: 14px;
+    align-items: start;
+  }
+
+  .workspace-page .page-heading-copy,
+  .library-page .page-heading-copy,
+  .settings-page .page-heading-copy {
+    grid-column: 1;
+    min-width: 0;
+  }
+
+  .workspace-page .page-header-utility,
+  .library-page .page-header-utility,
+  .settings-page .page-header-utility {
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    min-width: 0;
+    justify-self: stretch;
+    align-self: start;
+  }
+}
+
+@media (min-width: 761px) {
+  .workspace-page .page-heading-copy,
+  .library-page .page-heading-copy,
+  .settings-page .page-heading-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* v6 put actions on a separate right rail. v7 intentionally moves them
+     into the left copy stack so every page shares one vertical action anchor. */
+  .workspace-page .page-heading-copy > .page-header-actions,
+  .library-page .page-heading-copy > .page-header-actions,
+  .settings-page .page-heading-copy > .page-header-actions {
+    position: static;
+    grid-column: auto;
+    justify-self: auto;
+    align-self: flex-start;
+    justify-content: flex-start;
+    padding-top: 0;
+    margin-top: 16px;
+  }
+
+  .page-header-utility .search-box {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+
+  /* Character Library has no filter row after its search is lifted into the
+     header utility rail. Do not leave an empty toolbar spacer behind. */
+  .library-page .library-toolbar.search-relocated.is-empty {
+    display: none !important;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Prompt Library keeps its filter chips in the collection control row.
+     Search relocation must not make the remaining row reserve a phantom col 1. */
+  .library-page .library-toolbar.search-relocated:not(.is-empty) > .filter-row {
+    grid-column: 1 / -1;
+    justify-self: end;
+  }
+}
+
+@media (max-width: 760px) {
+  .workspace-page .page-heading-copy,
+  .library-page .page-heading-copy,
+  .settings-page .page-heading-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .workspace-page .page-heading-copy > .page-header-actions,
+  .library-page .page-heading-copy > .page-header-actions,
+  .settings-page .page-heading-copy > .page-header-actions {
+    position: static;
+    width: 100%;
+    justify-self: start;
+    align-self: flex-start;
+    justify-content: flex-start;
+    padding-top: 0;
+    margin-top: 14px;
+  }
+
+  .page-header-utility {
+    width: 100%;
+    margin-top: 12px;
+  }
+
+  .page-header-utility .search-box {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+
+  .library-page .library-toolbar.search-relocated.is-empty {
+    display: none !important;
+  }
+}
