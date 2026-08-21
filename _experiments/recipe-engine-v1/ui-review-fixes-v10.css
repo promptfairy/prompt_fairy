@@ -1,0 +1,80 @@
+/* Prompt Fairy UI review fixes v10
+   Traditional Chinese readability pass after beta feedback:
+   - Switch Chinese UI text from YuPearl to GenSen Rounded TW (regular).
+   - Keep Nunito for Latin text and preserve existing fallbacks.
+   - Raise only the small, repeatedly-read workspace copy; decorative micro-labels
+     stay compact so the visual hierarchy does not inflate.
+
+   GenSen Rounded / 源泉圓體 by But Ko (ButTaiwan), OFL-1.1.
+   Webfont CSS is loaded from ZeoSeven FontsAPI; no JavaScript dependency.
+*/
+
+@import url("https://fontsapi.zeoseven.com/303/main/result.css");
+
+:root {
+  --font-zh-readable: "GenSenRounded2 TW R", "GenSenRounded2 TW", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  --font-zh: var(--font-zh-readable);
+  --font-ui: var(--font-en), var(--font-zh-readable);
+}
+
+html,
+body,
+button,
+input,
+select,
+textarea,
+dialog {
+  font-family: var(--font-ui);
+}
+
+/* Workspace copy that testers need to scan repeatedly. */
+.field label {
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.hint {
+  font-size: 0.78rem;
+  line-height: 1.65;
+}
+
+.panel-subtitle {
+  font-size: 0.82rem;
+  line-height: 1.72;
+}
+
+.btn {
+  font-size: 0.8rem;
+}
+
+/* Change-set v7: keep the compact card hierarchy, but remove the sub-12px
+   Chinese reading sizes that were becoming fuzzy in the active workspace. */
+.fairy-note strong {
+  font-size: 0.8rem;
+}
+
+.fairy-note span,
+.fairy-ref-note {
+  font-size: 0.76rem;
+  line-height: 1.62;
+}
+
+.fairy-preview-idle,
+.fairy-extracted-empty {
+  font-size: 0.8rem;
+  line-height: 1.62;
+}
+
+.fairy-extracted-list > div {
+  font-size: 0.78rem;
+  line-height: 1.58;
+}
+
+.fairy-replacement-field > span {
+  font-size: 0.78rem;
+}
+
+/* These can contain Chinese state text, unlike the adjacent English kicker. */
+.fairy-preview-head > span {
+  font-size: 0.72rem;
+}
