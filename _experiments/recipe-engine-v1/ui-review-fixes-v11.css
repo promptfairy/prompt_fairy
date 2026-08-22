@@ -1,0 +1,43 @@
+/* Prompt Fairy UI review fixes v11
+   Small alignment pass for FAIRY CHANGE SET:
+   - Keep the secondary "unselected source" reminder on its own line.
+   - Keep the clear-selection action on one line instead of wrapping 2+2.
+   - Give both helper notices one shared gold reminder treatment.
+   - Pin notice contents to the top-left so unequal copy lengths stay balanced.
+*/
+
+/* Read as two complete lines instead of turning bold halfway through a sentence. */
+.change-set-v7 .change-set-v3-copy p b {
+  display: block;
+  margin-top: 1px;
+}
+
+/* Four Chinese characters stay together; do not fall into a 2 x 2 stack. */
+.change-set-v7 .change-set-v3-clear {
+  min-width: 96px;
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+/* Both cards are the same kind of reminder, so they share one visual level. */
+.change-set-v7 .fairy-note,
+.change-set-v7 .fairy-note.warning {
+  align-content: start;
+  align-items: start;
+  grid-auto-rows: max-content;
+  border-color: rgba(217, 183, 120, 0.34);
+  background: rgba(217, 183, 120, 0.07);
+}
+
+html[data-theme="mojito"] .change-set-v7 .fairy-note,
+html[data-theme="mojito"] .change-set-v7 .fairy-note.warning {
+  border-color: rgba(171, 129, 51, 0.28);
+  background: rgba(217, 183, 120, 0.11);
+}
+
+@media (max-width: 520px) {
+  .change-set-v7 .change-set-v3-clear {
+    min-width: 88px;
+    padding-inline: 10px;
+  }
+}
