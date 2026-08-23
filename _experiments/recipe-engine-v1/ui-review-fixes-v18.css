@@ -1,0 +1,150 @@
+/* Prompt Fairy UI review fixes v18
+   Shared header contract recovery:
+   - Move the local-image warning into the actual fixed page header.
+   - Use the open lower portion of header row 1 for the warning, above actions.
+   - Normalize header action buttons / metadata badges to one height in both themes.
+   - Undo v17's page-level grid workaround now that the notice has a real slot.
+*/
+
+@media (min-width: 761px) {
+  /* v17 used the whole library page as an overlapping grid. The notice now lives
+     inside .page-header, so restore normal page flow. */
+  .library-page {
+    display: block;
+  }
+
+  /* Row 1 already has deliberate breathing room below title/description. Put the
+     warning at the bottom of that same row instead of borrowing collection space. */
+  .library-page .page-header > .local-image-storage-note[data-local-image-note] {
+    position: static;
+    z-index: auto;
+    grid-column: 1;
+    grid-row: 1;
+    align-self: end;
+    justify-self: start;
+    width: min(100%, 760px);
+    min-height: 0;
+    margin: 0;
+    padding: 0 0 2px;
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    pointer-events: none;
+  }
+
+  .library-page .page-header > .local-image-storage-note[data-local-image-note] strong,
+  .library-page .page-header > .local-image-storage-note[data-local-image-note] span {
+    color: var(--gold, #d7bd85);
+  }
+
+  .library-page .page-header > .local-image-storage-note[data-local-image-note] strong {
+    flex: 0 0 auto;
+    font-size: 0.7rem;
+    font-weight: 750;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  .library-page .page-header > .local-image-storage-note[data-local-image-note] span {
+    min-width: 0;
+    overflow: hidden;
+    font-size: 0.68rem;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* One physical height contract for the lower-left header controls. This applies
+     to Prompt / Character / Material / Settings and to both Arcane + Mojito. */
+  .workspace-page .page-header-actions,
+  .library-page .page-header-actions,
+  .settings-page .page-header-actions {
+    height: 42px;
+    min-height: 42px;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .workspace-page .page-header-actions > :is(.btn, .header-badge),
+  .library-page .page-header-actions > :is(.btn, .header-badge),
+  .settings-page .page-header-actions > :is(.btn, .header-badge) {
+    height: 42px;
+    min-height: 42px;
+    margin: 0;
+    padding-block: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    box-sizing: border-box;
+    white-space: nowrap;
+  }
+
+  /* Right-bottom filters are a separate, deliberately smaller control tier, but
+     every chip within that tier still shares one height. */
+  .page-header-tags .filter-chip {
+    height: 32px;
+    min-height: 32px;
+    padding-block: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 760px) {
+  .library-page .page-header {
+    grid-template-rows: auto auto auto auto auto;
+  }
+
+  .library-page .page-header > .local-image-storage-note[data-local-image-note] {
+    position: static;
+    grid-column: 1;
+    grid-row: 2;
+    width: 100%;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 5px;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .library-page .page-header > .local-image-storage-note[data-local-image-note] strong,
+  .library-page .page-header > .local-image-storage-note[data-local-image-note] span {
+    color: var(--gold, #d7bd85);
+  }
+
+  .library-page .page-header > .page-header-actions {
+    grid-row: 3;
+  }
+
+  .library-page .page-header > .page-header-search {
+    grid-row: 4;
+  }
+
+  .library-page .page-header > .page-header-tags {
+    grid-row: 5;
+  }
+
+  .workspace-page .page-header-actions > :is(.btn, .header-badge),
+  .library-page .page-header-actions > :is(.btn, .header-badge),
+  .settings-page .page-header-actions > :is(.btn, .header-badge) {
+    min-height: 42px;
+    padding-block: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+}
