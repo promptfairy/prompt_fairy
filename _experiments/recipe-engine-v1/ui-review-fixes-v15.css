@@ -121,7 +121,10 @@ html[data-theme="mojito"] .prompt-card > .local-image-media.is-empty .local-imag
 /* 4) Equal bilingual navigation cells ------------------------------------- */
 @media (min-width: 1320px) {
   body:not(:has(.home-page)) .product-nav {
-    --pf-nav-cell-width: 142px;
+    /* The current CHARACTER LIBRARY cell is the widest reviewed cell in the
+       supplied QA capture (~150px). Keep that size and bring the other four
+       cells up to the same contract rather than inventing a new nav width. */
+    --pf-nav-cell-width: 150px;
   }
 
   body:not(:has(.home-page)) .product-nav a {
