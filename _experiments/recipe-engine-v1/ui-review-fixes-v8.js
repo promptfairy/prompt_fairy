@@ -7,6 +7,22 @@
     ".settings-page .page-header"
   ].join(",");
 
+  function ensureLocalImages() {
+    if (!document.querySelector('link[data-local-images-v1]')) {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "./local-images-v1.css?v=local-images-1";
+      link.dataset.localImagesV1 = "true";
+      document.head.append(link);
+    }
+    if (!document.querySelector('script[data-local-images-v1]')) {
+      const script = document.createElement("script");
+      script.src = "./local-images-v1.js?v=local-images-1";
+      script.dataset.localImagesV1 = "true";
+      document.body.append(script);
+    }
+  }
+
   function ensureSlot(header, className, label) {
     let slot = header.querySelector(`:scope > .${className}`);
     if (!slot) {
@@ -70,5 +86,6 @@
   };
 
   new MutationObserver(scheduleApply).observe(app, { childList: true, subtree: true });
+  ensureLocalImages();
   applyHeaderFrame();
 })();
