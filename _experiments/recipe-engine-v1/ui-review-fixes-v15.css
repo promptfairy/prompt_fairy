@@ -1,0 +1,137 @@
+/* Prompt Fairy UI review fixes v15
+   Mojito QA pass:
+   - Normalize secondary/ghost control contrast on light surfaces.
+   - Improve muted text and segmented/filter readability inside pale panels.
+   - Compact Prompt Library cards when no local preview image exists.
+   - Make desktop bilingual navigation cells equal-sized using the current
+     largest reviewed nav cell as the shared contract.
+*/
+
+/* 1) Mojito button contrast ------------------------------------------------ */
+html[data-theme="mojito"] .btn.secondary {
+  border-color: rgba(77, 123, 127, 0.24);
+  background: linear-gradient(180deg, rgba(231, 241, 239, 0.96), rgba(219, 234, 232, 0.96));
+  color: #455f66;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+}
+
+html[data-theme="mojito"] .btn.secondary:hover:not(:disabled) {
+  border-color: rgba(49, 159, 156, 0.34);
+  background: linear-gradient(180deg, rgba(239, 248, 246, 0.98), rgba(226, 240, 237, 0.98));
+  color: #36555d;
+  box-shadow: 0 8px 18px rgba(47, 82, 81, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.88);
+}
+
+html[data-theme="mojito"] .btn.secondary.selected {
+  border-color: rgba(49, 159, 156, 0.36);
+  background: rgba(49, 159, 156, 0.12);
+  color: #286c69;
+}
+
+html[data-theme="mojito"] .btn.ghost {
+  border-color: rgba(77, 123, 127, 0.2);
+  background: rgba(247, 251, 249, 0.72);
+  color: #657b82;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+html[data-theme="mojito"] .btn.ghost:hover:not(:disabled) {
+  border-color: rgba(49, 159, 156, 0.29);
+  background: rgba(235, 245, 242, 0.92);
+  color: #4a686f;
+}
+
+/* Keep the workspace clear action visibly outlined without turning it into a
+   destructive red control. */
+html[data-theme="mojito"] .source-panel .btn.ghost.danger-text[data-action="clear-workspace"] {
+  border-color: rgba(77, 123, 127, 0.2);
+  background: rgba(247, 251, 249, 0.72);
+  color: #657b82 !important;
+}
+
+html[data-theme="mojito"] .source-panel .btn.ghost.danger-text[data-action="clear-workspace"]:hover:not(:disabled) {
+  border-color: rgba(49, 159, 156, 0.29);
+  background: rgba(235, 245, 242, 0.92);
+  color: #4a686f !important;
+}
+
+/* 2) Light-surface readability -------------------------------------------- */
+html[data-theme="mojito"] :is(.ingredient-tab, .filter-chip) {
+  border-color: rgba(77, 123, 127, 0.18);
+  background: rgba(232, 241, 239, 0.88);
+  color: #5b7379;
+}
+
+html[data-theme="mojito"] :is(.ingredient-tab, .filter-chip):hover {
+  border-color: rgba(49, 159, 156, 0.28);
+  background: rgba(240, 248, 246, 0.96);
+  color: #45656c;
+}
+
+html[data-theme="mojito"] :is(.ingredient-tab, .filter-chip).active,
+html[data-theme="mojito"] :is(.ingredient-tab, .filter-chip)[aria-selected="true"] {
+  border-color: rgba(49, 159, 156, 0.38);
+  background: rgba(49, 159, 156, 0.13);
+  color: #246d69;
+  box-shadow: inset 0 -1px 0 rgba(49, 159, 156, 0.26);
+}
+
+html[data-theme="mojito"] :is(.panel, .surface-card, .library-card) :is(.muted, small, .hint) {
+  color: #6e8287;
+}
+
+/* 3) Prompt Library no-image compact mode --------------------------------- */
+html[data-theme="mojito"] .prompt-card > .local-image-media.is-empty {
+  aspect-ratio: auto;
+  min-height: 64px;
+  padding: 9px 12px;
+  border-color: rgba(77, 123, 127, 0.18);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(49, 159, 156, 0.08), transparent 58%),
+    linear-gradient(145deg, rgba(226, 239, 239, 0.82), rgba(239, 247, 245, 0.86));
+}
+
+html[data-theme="mojito"] .prompt-card > .local-image-media.is-empty .local-image-empty-copy {
+  grid-template-columns: auto 1fr;
+  justify-items: start;
+  align-items: center;
+  column-gap: 9px;
+  row-gap: 1px;
+  width: 100%;
+  text-align: left;
+}
+
+html[data-theme="mojito"] .prompt-card > .local-image-media.is-empty .local-image-empty-copy > span {
+  grid-row: 1 / span 2;
+  color: #5a9d98;
+  font-size: 1rem;
+}
+
+html[data-theme="mojito"] .prompt-card > .local-image-media.is-empty .local-image-empty-copy strong {
+  color: #526a70;
+  font-size: 0.75rem;
+}
+
+html[data-theme="mojito"] .prompt-card > .local-image-media.is-empty .local-image-empty-copy small {
+  max-width: none;
+  color: #7a8d91;
+  font-size: 0.68rem;
+}
+
+/* 4) Equal bilingual navigation cells ------------------------------------- */
+@media (min-width: 1320px) {
+  body:not(:has(.home-page)) .product-nav {
+    --pf-nav-cell-width: 142px;
+  }
+
+  body:not(:has(.home-page)) .product-nav a {
+    width: var(--pf-nav-cell-width);
+    min-width: var(--pf-nav-cell-width);
+    max-width: var(--pf-nav-cell-width);
+    flex: 0 0 var(--pf-nav-cell-width);
+    grid-template-rows: auto auto;
+    justify-items: center;
+    align-content: center;
+    text-align: center;
+  }
+}
