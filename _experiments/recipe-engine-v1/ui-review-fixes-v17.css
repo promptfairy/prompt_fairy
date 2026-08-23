@@ -1,0 +1,92 @@
+/* Prompt Fairy UI review fixes v17
+   Library notice recovery pass:
+   - Keep the local-image warning inside the shared header footprint without
+     absolute positioning.
+   - Remove the warning card frame/background and render it as gold helper copy.
+   - Preserve the collection / work-area vertical start shared by library pages.
+*/
+
+@media (min-width: 961px) {
+  /* Turn the library page into a simple one-column grid so the notice can share
+     the same first row as the existing page header instead of adding a new row. */
+  .library-page {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+  }
+
+  .library-page > .page-header {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  /* Override v16's failed absolute placement. The notice remains in its current
+     DOM position, but visually participates in the header row and therefore does
+     not increase the toolbar / collection start height. */
+  .library-page > .local-image-storage-note[data-local-image-note] {
+    position: static;
+    z-index: auto;
+    grid-column: 1;
+    grid-row: 1;
+    align-self: end;
+    justify-self: stretch;
+    min-height: 0;
+    margin: 0 2px 8px;
+    padding: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    pointer-events: none;
+  }
+
+  .library-page > .local-image-storage-note[data-local-image-note] strong,
+  .library-page > .local-image-storage-note[data-local-image-note] span {
+    color: #b88435;
+  }
+
+  .library-page > .local-image-storage-note[data-local-image-note] strong {
+    flex: 0 0 auto;
+    font-size: 0.7rem;
+    font-weight: 750;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  .library-page > .local-image-storage-note[data-local-image-note] span {
+    min-width: 0;
+    overflow: hidden;
+    font-size: 0.68rem;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .library-page > .library-toolbar {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .library-page > .collection-grid {
+    grid-column: 1;
+    grid-row: 3;
+  }
+}
+
+@media (max-width: 960px) {
+  .library-page > .local-image-storage-note[data-local-image-note] {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    color: #b88435;
+  }
+
+  .library-page > .local-image-storage-note[data-local-image-note] strong,
+  .library-page > .local-image-storage-note[data-local-image-note] span {
+    color: #b88435;
+  }
+}
