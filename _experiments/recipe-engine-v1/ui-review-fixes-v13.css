@@ -1,0 +1,98 @@
+/* Prompt Fairy UI review fixes v13
+   Header/navigation proportion pass:
+   - Align the desktop navigation capsule with the middle workspace column.
+   - Let each nav item size to its own label instead of forcing equal widths.
+   - Raise navigation readability to the reviewed text size with semibold weight.
+   - Remove the warm danger treatment from the workspace clear action.
+   - Give Mojito character slot cards a pale blue-green gray surface.
+*/
+
+/* Readable navigation copy: both lines belong to the same control hierarchy. */
+.product-nav a {
+  font-weight: 600;
+}
+
+.product-nav a > span,
+.product-nav a > small {
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.product-nav a > span {
+  letter-spacing: 0.035em;
+}
+
+.product-nav a > small {
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+}
+
+/* On full desktop, use the same three-column contract as .workspace-grid.
+   The nav capsule occupies the middle column exactly; its buttons remain
+   content-sized so long labels do not force every item to the same width. */
+@media (min-width: 1320px) {
+  .product-bar {
+    padding: 12px max(16px, calc((100vw - 1540px) / 2));
+    grid-template-columns: minmax(270px, 0.82fr) minmax(390px, 1.23fr) minmax(300px, 0.92fr);
+    gap: 14px;
+  }
+
+  .product-nav {
+    width: 100%;
+    justify-self: stretch;
+    justify-content: center;
+    gap: 4px;
+    padding: 4px 8px;
+  }
+
+  .product-nav a {
+    min-width: 0;
+    flex: 0 1 auto;
+    padding: 8px clamp(8px, 0.72vw, 12px);
+  }
+}
+
+/* Clear workspace is a secondary utility, not a destructive account action. */
+.source-panel .btn.ghost.danger-text[data-action="clear-workspace"] {
+  border-color: transparent;
+  background: transparent;
+  color: #7f92a4 !important;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.source-panel .btn.ghost.danger-text[data-action="clear-workspace"]:hover:not(:disabled) {
+  transform: none;
+  border-color: transparent;
+  background: rgba(125, 149, 166, 0.08);
+  color: #a9bac7 !important;
+  box-shadow: none;
+}
+
+html[data-theme="mojito"] .source-panel .btn.ghost.danger-text[data-action="clear-workspace"] {
+  color: #71868e !important;
+}
+
+html[data-theme="mojito"] .source-panel .btn.ghost.danger-text[data-action="clear-workspace"]:hover:not(:disabled) {
+  background: rgba(86, 126, 132, 0.08);
+  color: #506f77 !important;
+}
+
+/* v12 intentionally made slot cards denser, but its dark surface carried into
+   Mojito. Keep the structure while restoring a light blue-green gray surface. */
+html[data-theme="mojito"] .compose-panel .assignment-grid[data-v8-slot-grid="true"] .v8-slot-card {
+  border-color: rgba(77, 123, 127, 0.18);
+  background: linear-gradient(145deg, rgba(226, 239, 239, 0.94), rgba(237, 245, 244, 0.88));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+html[data-theme="mojito"] .v8-slot-card :is(input, select, textarea) {
+  background-color: rgba(255, 255, 255, 0.92);
+}
+
+@media (max-width: 960px) {
+  .product-nav a > span,
+  .product-nav a > small {
+    font-size: inherit;
+  }
+}
