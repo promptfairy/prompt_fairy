@@ -18,6 +18,10 @@
 - 「清除選擇」避免折行；提醒卡重新對齊、統一高度與色系。
 - Advanced Semantic Index 維持進階功能定位，平常可收起；展開後切換分類不會再自己縮起來。
 - 修正「三分之四身」→「四分之三身」等 QA 文案與分類字典問題。
+- Mojito review 補齊淺色主題的次級／ghost 按鈕映射，避免 Arcane 的深色按鈕樣式外溢到淡色頁面。
+- 淺底區塊的 muted text、分類／分段控制重新拉開對比，讓未選取、hover、active 狀態可辨識。
+- 胖譜庫沒有代表圖時改用 compact placeholder，不再讓空圖片框維持大張 4:3 視覺重量。
+- 桌機雙語導覽改成等寬 cell：以現有最寬的 Character Library 格為基準，其餘導覽格向它看齊，兩行文字各自在格內置中。
 
 ## 人物槽：從 AA / BB 寫死到可增減
 
@@ -42,6 +46,9 @@
 - 篩選分類會把 Advanced 區塊關掉 → 變成「使用者手動決定開關，重繪不能替他收起來」。
 - 刪除 BB 導致 CC 自動變 BB → 變成「建立角色對應後，slot token 是地址，不是單純座位號」。
 - 固定 AA／BB → 推出真正的 dynamic character slots，並為多角色 Reference Character Mapping 鋪路。
+- Mojito 中深色 secondary／ghost control 過重 → 淺色主題不能只換頁面背景，互動控制也需要完整 theme mapping。
+- 胖譜卡沒有圖片仍撐著大預覽框 → 空狀態本身也要有資訊密度規則，有圖與無圖不能共用同一個視覺重量。
+- 雙語導覽每格依 label 自己 sizing 造成底色與文字重心漂移 → 導覽 cell 改以最大既有格為共同尺寸，不再讓每格各自長。
 
 ## 下一階段（尚未宣稱完成）
 
