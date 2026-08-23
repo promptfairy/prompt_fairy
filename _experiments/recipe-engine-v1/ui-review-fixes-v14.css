@@ -1,0 +1,106 @@
+/* Prompt Fairy UI review fixes v14
+   Home-page recovery pass:
+   - Keep the v13 workspace-aligned desktop navigation on work pages, but restore
+     the landing page to its own centered navigation contract.
+   - Reduce the oversized home hero headline so the copy and Continue Brewing
+     card read as peers instead of competing blocks.
+   - Freeze the reviewed Mojito hero gradient to teal -> green -> olive.
+   - Replace the three inherited dark entry cards with light Mojito surfaces.
+*/
+
+/* Home is a landing page, not a three-column workspace. Restore the original
+   centered capsule only while the rendered route contains .home-page. */
+@media (min-width: 1320px) {
+  body:has(.home-page) .product-bar {
+    padding: 12px clamp(18px, 4vw, 58px);
+    grid-template-columns: 1fr auto 1fr;
+    gap: 24px;
+  }
+
+  body:has(.home-page) .product-nav {
+    width: auto;
+    justify-self: center;
+    justify-content: flex-start;
+    gap: 4px;
+    padding: 4px;
+  }
+
+  body:has(.home-page) .product-nav a {
+    flex: 0 0 auto;
+    padding: 8px 11px;
+  }
+}
+
+/* Desktop hero proportion: keep the existing hierarchy, but bring the title
+   back into balance with the resume card. Mobile keeps its dedicated rules. */
+@media (min-width: 961px) {
+  .home-page {
+    padding-top: clamp(42px, 5.4vw, 72px);
+  }
+
+  .home-hero {
+    min-height: 430px;
+    grid-template-columns: minmax(0, 1.2fr) minmax(340px, 0.78fr);
+    gap: clamp(36px, 5.5vw, 76px);
+  }
+
+  .hero-copy {
+    max-width: 720px;
+  }
+
+  .hero-copy .eyebrow {
+    margin-bottom: 18px;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(2.55rem, 3.85vw, 3.7rem);
+    line-height: 1.08;
+    letter-spacing: -0.045em;
+  }
+
+  .hero-copy > p {
+    margin-top: 22px;
+  }
+
+  .hero-meta {
+    margin-top: 21px;
+  }
+}
+
+/* The highlighted phrase is a home-brand treatment, not a theme-derived tint.
+   Keep this direction stable in Mojito: deep teal -> clear teal -> soft olive. */
+html[data-theme="mojito"] .hero-copy h1 span {
+  background: linear-gradient(102deg, #356b74 4%, #2f9a91 53%, #858e61 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* The base entry-card surface is deliberately dark for Arcane. Mojito needs an
+   explicit light surface instead of inheriting that base value. */
+html[data-theme="mojito"] .entry-card {
+  border-color: rgba(77, 123, 127, 0.16);
+  background: linear-gradient(145deg, rgba(226, 239, 239, 0.94), rgba(238, 246, 244, 0.9));
+  color: var(--text);
+  box-shadow: 0 12px 30px rgba(47, 82, 81, 0.055), inset 0 1px 0 rgba(255, 255, 255, 0.78);
+}
+
+html[data-theme="mojito"] .entry-card:hover {
+  border-color: rgba(49, 159, 156, 0.27);
+  background: linear-gradient(145deg, rgba(235, 247, 245, 0.98), rgba(244, 250, 247, 0.96));
+  box-shadow: 0 14px 34px rgba(47, 82, 81, 0.075), inset 0 1px 0 rgba(255, 255, 255, 0.86);
+}
+
+html[data-theme="mojito"] .entry-card strong {
+  color: #3f5961;
+}
+
+html[data-theme="mojito"] .entry-card :is(small, p, b) {
+  color: #74898d;
+}
+
+html[data-theme="mojito"] .entry-icon {
+  border-color: rgba(49, 159, 156, 0.18);
+  background: rgba(49, 159, 156, 0.065);
+  color: #2f918d;
+}
