@@ -1,0 +1,38 @@
+/* Prompt Fairy UI review fixes v19
+   Shared width alignment pass:
+   - Give every desktop bilingual navigation cell a little more breathing room.
+   - Keep all five navigation cells exactly equal width.
+   - Make the Settings schema badge occupy the same primary-action width as
+     the Library create buttons, without changing the smaller count badges.
+*/
+
+:root {
+  --pf-header-primary-width: 132px;
+}
+
+@media (min-width: 1320px) {
+  .product-nav,
+  body:has(.home-page) .product-nav,
+  body:not(:has(.home-page)) .product-nav {
+    --pf-nav-cell-width: 156px;
+  }
+
+  .product-nav a,
+  body:has(.home-page) .product-nav a,
+  body:not(:has(.home-page)) .product-nav a {
+    width: var(--pf-nav-cell-width);
+    min-width: var(--pf-nav-cell-width);
+    max-width: var(--pf-nav-cell-width);
+    flex: 0 0 var(--pf-nav-cell-width);
+  }
+}
+
+@media (min-width: 761px) {
+  .library-page .page-header-actions > .btn.primary,
+  .settings-page .page-header-actions > .header-badge {
+    width: var(--pf-header-primary-width);
+    min-width: var(--pf-header-primary-width);
+    max-width: var(--pf-header-primary-width);
+    flex: 0 0 var(--pf-header-primary-width);
+  }
+}
