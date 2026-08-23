@@ -93,29 +93,127 @@
     return kind === "character" ? "人物預覽" : "成品預覽";
   }
 
-  function buildEmptyMedia(kind, id) {
+  function entityTitle(kind, id) {
+    const core = readCore();
+    if (kind === "character") return (core.characters || []).find((item) => item.id === id)?.name || "人物預覽";
+    return (core.promptEntries || []).find((item) => item.id === id)?.title || "成品預覽";
+  }
+
+  function ensureImageInput(card, entity) {
+    let input = card.querySelector(`:scope > input[data-local-image-input="${imageKey(entity.kind, entity.id)}"]`);
+    if (input) return input;
+    input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.hidden = true;
+    input.dataset.localImageInput = imageKey(entity.kind, entity.id);
+    card.append(input);
+    input.addEventListener("change", async (event) => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      if (!String(file.type || "").startsWith("image/")) {
+        alert("請選擇圖片檔。");
+        event.target.value = "";
+        return;
+      }
+      if (file.size > MAX_IMAGE_BYTES) {
+        alert(`這張圖片是 ${formatBytes(file.size)}。為避免本機容量被單張圖片吃掉太多，目前單張上限為 ${formatBytes(MAX_IMAGE_BYTES)}。`);
+        event.target.value = "";
+        return;
+      }
+      try {
+        await putImage(entity.kind, entity.id, file);
+        event.target.value = "";
+        closeLightbox();
+        card.dataset.localImageReady = "";
+        await decorateCard(card, true);
+        await refreshStorageUi();
+      } catch (error) {
+        console.error(error);
+        alert("圖片沒有存成功；可能是瀏覽器的本機儲存空間不足。");
+      }
+    });
+    return input;
+  }
+
+  function closeLightbox() {
+    const lightbox = document.querySelector("[data-local-image-lightbox]");
+    if (!lightbox) return;
+    const url = lightbox.dataset.objectUrl;
+    if (url) URL.revokeObjectURL(url);
+    lightbox.remove();
+    document.documentElement.classList.remove("local-image-lightbox-open");
+  }
+
+  function openLightbox(card, entity, record) {
+    closeLightbox();
+    const url = URL.createObjectURL(record.blob);
+    const lightbox = document.createElement("div");
+    lightbox.className = "local-image-lightbox";
+    lightbox.dataset.localImageLightbox = "true";
+    lightbox.dataset.objectUrl = url;
+    lightbox.innerHTML = `
+      <div class="local-image-lightbox-card" role="dialog" aria-modal="true" aria-label="${mediaLabel(entity.kind)}完整圖片">
+        <div class="local-image-lightbox-head">
+          <div><small>${mediaLabel(entity.kind)}</small><strong></strong></div>
+          <button type="button" class="local-image-lightbox-close" aria-label="關閉">×</button>
+        </div>
+        <div class="local-image-lightbox-stage"><img alt="${mediaLabel(entity.kind)}完整圖片" /></div>
+        <div class="local-image-lightbox-foot">
+          <span>${formatBytes(record.size)}</span>
+          <div>
+            <button type="button" class="btn ghost compact" data-local-image-replace>更換圖片</button>
+            <button type="button" class="btn ghost compact danger-text" data-local-image-delete>移除圖片</button>
+          </div>
+        </div>
+      </div>
+    `;
+    lightbox.querySelector(".local-image-lightbox-head strong").textContent = entityTitle(entity.kind, entity.id);
+    lightbox.querySelector("img").src = url;
+    lightbox.querySelector(".local-image-lightbox-close").addEventListener("click", closeLightbox);
+    lightbox.addEventListener("click", (event) => {
+      if (event.target === lightbox) closeLightbox();
+    });
+    lightbox.querySelector("[data-local-image-replace]").addEventListener("click", () => {
+      const input = ensureImageInput(card, entity);
+      closeLightbox();
+      input.click();
+    });
+    lightbox.querySelector("[data-local-image-delete]").addEventListener("click", async () => {
+      if (!confirm("移除這張本機圖片？胖譜／人設本身不會被刪除。")) return;
+      await deleteImage(entity.kind, entity.id);
+      closeLightbox();
+      card.dataset.localImageReady = "";
+      await decorateCard(card, true);
+      await refreshStorageUi();
+    });
+    document.body.append(lightbox);
+    document.documentElement.classList.add("local-image-lightbox-open");
+  }
+
+  function buildPromptEmpty(entity, input) {
     const shell = document.createElement("div");
-    shell.className = `local-image-media local-image-media-${kind} is-empty`;
-    shell.dataset.localImageMedia = imageKey(kind, id);
+    shell.className = "local-image-media local-image-media-prompt is-empty";
+    shell.dataset.localImageMedia = imageKey(entity.kind, entity.id);
     shell.innerHTML = `
       <div class="local-image-empty-copy">
         <span aria-hidden="true">▧</span>
-        <strong>${mediaLabel(kind)}</strong>
-        <small>${kind === "character" ? "放一張角色圖，整理時更快認人。" : "放一張生成結果，之後一眼就知道這份胖譜長什麼樣。"}</small>
+        <strong>成品預覽</strong>
+        <small>放一張生成結果，之後一眼就知道這份胖譜長什麼樣。</small>
       </div>
       <button type="button" class="btn ghost compact local-image-pick">＋ 加入圖片</button>
-      <input class="local-image-input" type="file" accept="image/*" hidden />
     `;
+    shell.querySelector(".local-image-pick").addEventListener("click", () => input.click());
     return shell;
   }
 
-  function buildFilledMedia(kind, id, record) {
+  function buildPromptFilled(card, entity, record, input) {
     const shell = document.createElement("div");
-    shell.className = `local-image-media local-image-media-${kind} has-image`;
-    shell.dataset.localImageMedia = imageKey(kind, id);
+    shell.className = "local-image-media local-image-media-prompt has-image";
+    shell.dataset.localImageMedia = imageKey(entity.kind, entity.id);
     const url = URL.createObjectURL(record.blob);
     shell.innerHTML = `
-      <img alt="${mediaLabel(kind)}" />
+      <button type="button" class="local-image-preview-button" aria-label="開啟完整成品圖"><img alt="成品預覽" /></button>
       <div class="local-image-overlay">
         <span>${formatBytes(record.size)}</span>
         <div>
@@ -123,13 +221,69 @@
           <button type="button" class="local-image-text-button danger local-image-remove">移除</button>
         </div>
       </div>
-      <input class="local-image-input" type="file" accept="image/*" hidden />
     `;
     const img = shell.querySelector("img");
     img.addEventListener("load", () => URL.revokeObjectURL(url), { once: true });
     img.addEventListener("error", () => URL.revokeObjectURL(url), { once: true });
     img.src = url;
+    shell.querySelector(".local-image-preview-button").addEventListener("click", () => openLightbox(card, entity, record));
+    shell.querySelector(".local-image-pick").addEventListener("click", () => input.click());
+    shell.querySelector(".local-image-remove").addEventListener("click", async () => {
+      if (!confirm("移除這張本機圖片？胖譜本身不會被刪除。")) return;
+      await deleteImage(entity.kind, entity.id);
+      card.dataset.localImageReady = "";
+      await decorateCard(card, true);
+      await refreshStorageUi();
+    });
     return shell;
+  }
+
+  function decorateCharacterAvatar(card, entity, record, input) {
+    card.querySelector(":scope > [data-local-image-media]")?.remove();
+    const monogram = card.querySelector(":scope > .character-heading .monogram");
+    if (!monogram) return;
+    const name = entityTitle("character", entity.id);
+    const fallback = name.trim().slice(0, 1).toUpperCase() || "✦";
+    monogram.classList.add("local-character-avatar");
+    monogram.dataset.localCharacterAvatar = imageKey(entity.kind, entity.id);
+    monogram.replaceChildren();
+
+    if (!record) {
+      monogram.classList.add("is-empty");
+      const letter = document.createElement("span");
+      letter.className = "local-character-avatar-letter";
+      letter.textContent = fallback;
+      const plus = document.createElement("span");
+      plus.className = "local-character-avatar-plus";
+      plus.textContent = "+";
+      monogram.append(letter, plus);
+      monogram.setAttribute("role", "button");
+      monogram.setAttribute("tabindex", "0");
+      monogram.setAttribute("aria-label", `替 ${name} 加入人物預覽圖`);
+      const pick = () => input.click();
+      monogram.addEventListener("click", pick);
+      monogram.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") { event.preventDefault(); pick(); }
+      });
+      return;
+    }
+
+    monogram.classList.remove("is-empty");
+    monogram.setAttribute("role", "button");
+    monogram.setAttribute("tabindex", "0");
+    monogram.setAttribute("aria-label", `開啟 ${name} 的完整人物圖`);
+    const url = URL.createObjectURL(record.blob);
+    const img = document.createElement("img");
+    img.alt = `${name} 人物預覽`;
+    img.addEventListener("load", () => URL.revokeObjectURL(url), { once: true });
+    img.addEventListener("error", () => URL.revokeObjectURL(url), { once: true });
+    img.src = url;
+    monogram.append(img);
+    const open = () => openLightbox(card, entity, record);
+    monogram.addEventListener("click", open);
+    monogram.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") { event.preventDefault(); open(); }
+    });
   }
 
   async function decorateCard(card, force = false) {
@@ -142,45 +296,19 @@
     try {
       const record = await getImage(entity.kind, entity.id);
       if (!card.isConnected || entityFromCard(card)?.id !== entity.id) return;
-      card.querySelector(":scope > [data-local-image-media]")?.remove();
-      const media = record ? buildFilledMedia(entity.kind, entity.id, record) : buildEmptyMedia(entity.kind, entity.id);
-      const anchor = entity.kind === "character"
-        ? card.querySelector(":scope > .character-heading")
-        : card.querySelector(":scope > .card-topline");
-      anchor?.insertAdjacentElement("afterend", media);
+      const input = ensureImageInput(card, entity);
 
-      media.querySelector(".local-image-pick")?.addEventListener("click", () => {
-        media.querySelector(".local-image-input")?.click();
-      });
-      media.querySelector(".local-image-input")?.addEventListener("change", async (event) => {
-        const file = event.target.files?.[0];
-        if (!file) return;
-        if (!String(file.type || "").startsWith("image/")) {
-          alert("請選擇圖片檔。 ");
-          event.target.value = "";
-          return;
-        }
-        if (file.size > MAX_IMAGE_BYTES) {
-          alert(`這張圖片是 ${formatBytes(file.size)}。為避免本機容量被單張圖片吃掉太多，目前單張上限為 ${formatBytes(MAX_IMAGE_BYTES)}。`);
-          event.target.value = "";
-          return;
-        }
-        try {
-          await putImage(entity.kind, entity.id, file);
-          event.target.value = "";
-          await decorateCard(card, true);
-          await refreshStorageUi();
-        } catch (error) {
-          console.error(error);
-          alert("圖片沒有存成功；可能是瀏覽器的本機儲存空間不足。 ");
-        }
-      });
-      media.querySelector(".local-image-remove")?.addEventListener("click", async () => {
-        if (!confirm("移除這張本機圖片？胖譜／人設本身不會被刪除。")) return;
-        await deleteImage(entity.kind, entity.id);
-        await decorateCard(card, true);
-        await refreshStorageUi();
-      });
+      if (entity.kind === "character") {
+        decorateCharacterAvatar(card, entity, record, input);
+        return;
+      }
+
+      card.querySelector(":scope > [data-local-image-media]")?.remove();
+      const media = record
+        ? buildPromptFilled(card, entity, record, input)
+        : buildPromptEmpty(entity, input);
+      const anchor = card.querySelector(":scope > .card-topline");
+      anchor?.insertAdjacentElement("afterend", media);
     } catch (error) {
       console.error("Prompt Fairy local image decoration failed", error);
     }
@@ -197,8 +325,7 @@
         <strong>圖片只存在這台裝置</strong>
         <span>預覽圖會佔用瀏覽器的本機儲存空間；清除這個網站的資料時，圖片也會一起消失。目前 JSON 備份不包含圖片。</span>
       `;
-      const toolbar = page.querySelector(".library-toolbar");
-      toolbar?.insertAdjacentElement("afterend", note);
+      collection.insertAdjacentElement("beforebegin", note);
     });
   }
 
@@ -269,11 +396,15 @@
     });
   }
 
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && document.querySelector("[data-local-image-lightbox]")) closeLightbox();
+  });
+
   const app = document.getElementById("app");
   if (!app) return;
   new MutationObserver(schedule).observe(app, { childList: true, subtree: true });
   window.addEventListener("hashchange", schedule);
-  window.addEventListener("pagehide", () => { dbPromise = null; });
+  window.addEventListener("pagehide", () => { closeLightbox(); dbPromise = null; });
   setTimeout(() => pruneOrphans().then(schedule).catch(() => {}), 250);
   schedule();
 })();
