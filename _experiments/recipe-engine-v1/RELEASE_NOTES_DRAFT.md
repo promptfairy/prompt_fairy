@@ -53,6 +53,13 @@
 - 雙語導覽每格依 label 自己 sizing 造成底色與文字重心漂移 → 導覽 cell 改以最大既有格為共同尺寸，不再讓每格各自長。
 - 首頁與工作頁各自持有不同導覽 contract → 全站導覽屬於 product chrome，切 route 不應改變它的幾何規則。
 - 後插入的圖片提醒把資料庫 collection 往下推 → 共用頁首中的提醒屬於 header metadata，不應改變主要工作區的垂直起點。
+- Change Set v8 接管 Compose 後曾漏接材料庫與「臨時點綴」資料；先以 compile data bridge 補回既有 core state，不碰 UI / CSS，之後收斂 pipeline 時再併回正式編譯路徑。
+
+## 發佈前最後整理（先記錄，不在目前 QA 階段動）
+
+- 收斂 v1–v19 累積的 CSS override、JS interception／monkey-patch 與重複 handler，確認同一功能沒有兩代資料流互相搶接。
+- 整理前先重新確認 layout contract；不要因「技術債很多」就直接重構，避免重演 v16 圖片提醒造成文字重疊的問題。
+- consolidation 完成後做一次桌機／手機 regression，特別驗證人物多槽、Advanced 展開狀態、本機圖片、材料庫、臨時點綴、Reference Character Mapping 與新胖譜輸出。
 
 ## 下一階段（尚未宣稱完成）
 
