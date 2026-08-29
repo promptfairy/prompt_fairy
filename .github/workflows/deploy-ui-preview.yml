@@ -23,7 +23,7 @@ jobs:
     name: Publish production site
     runs-on: ubuntu-latest
     environment:
-      name: github-pages
+      name: prompt-fairy-production
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
