@@ -1,10 +1,9 @@
 (() => {
   "use strict";
 
-  // Temporary compatibility bridge for the Change Set v8 compile path.
-  // The core workspace already persists selected materials and additions;
-  // v8 intercepts Compose when a fairy change set / reference / ratio is active.
-  // This bridge restores those existing data inputs without touching layout or CSS.
+  // Compatibility bridge for the Change Set v8 compile path.
+  // Change Set v8 owns the final compile when a fairy change/reference/ratio is active,
+  // so restore Material Library selections and temporary additions after that compile settles.
 
   const CORE_KEY = "prompt-fairy-arcane-v2";
   const CHANGE_SET_KEY = "prompt-fairy-change-set-v8";
@@ -47,46 +46,52 @@
       .filter(Boolean);
   }
 
-  function buildBridgeBlocks(core) {
+  function missingBridgeBlocks(output, core) {
     const blocks = [];
     const materials = selectedMaterialContents(core);
     const additions = additionLines(core);
 
-    if (materials.length) blocks.push(`${MATERIAL_MARKER}\n${materials.join("\n")}`);
-    if (additions.length) blocks.push(`${ADDITIONS_MARKER}\n${additions.join("\n")}`);
+    if (materials.length && !output.includes(MATERIAL_MARKER)) {
+      blocks.push(`${MATERIAL_MARKER}\n${materials.join("\n")}`);
+    }
+    if (additions.length && !output.includes(ADDITIONS_MARKER)) {
+      blocks.push(`${ADDITIONS_MARKER}\n${additions.join("\n")}`);
+    }
     return blocks.join("\n\n");
   }
 
   function insertBeforeIdentity(output, blocks) {
     if (!blocks) return output;
-    if (output.includes(MATERIAL_MARKER) || output.includes(ADDITIONS_MARKER)) return output;
-
     const marker = `\n\n${IDENTITY_MARKER}`;
     const index = output.indexOf(marker);
     if (index < 0) return `${output.trim()}\n\n${blocks}`;
     return `${output.slice(0, index).trim()}\n\n${blocks}${output.slice(index)}`;
   }
 
-  document.addEventListener("click", (event) => {
-    const compileButton = event.target.closest?.('[data-action="compile"]');
-    if (!compileButton) return;
-
+  function reconcileCompileOutput() {
     const core = read(CORE_KEY);
     const local = read(CHANGE_SET_KEY);
     if (!changeSetOwnsCompile(core, local)) return;
 
-    const blocks = buildBridgeBlocks(core);
+    const textarea = document.querySelector("#outputPrompt");
+    if (!textarea?.value?.trim()) return;
+
+    const blocks = missingBridgeBlocks(textarea.value, core);
     if (!blocks) return;
 
-    // Registered before change-set-v8.js. v8 completes its synchronous compile first;
-    // then this microtask restores selected library materials / additions to the output.
-    queueMicrotask(() => {
-      const textarea = document.querySelector("#outputPrompt");
-      if (!textarea?.value?.trim()) return;
-      const next = insertBeforeIdentity(textarea.value, blocks);
-      if (next === textarea.value) return;
-      textarea.value = next;
-      textarea.dispatchEvent(new Event("input", { bubbles: true }));
-    });
+    const next = insertBeforeIdentity(textarea.value, blocks);
+    if (next === textarea.value) return;
+    textarea.value = next;
+    textarea.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
+  document.addEventListener("click", (event) => {
+    const compileButton = event.target.closest?.('[data-action="compile"]');
+    if (!compileButton) return;
+
+    // Change Set v8 compiles synchronously and may immediately rebuild parts of the workspace.
+    // Re-read persisted state on the next task so the bridge uses the final UI state/output,
+    // rather than a click-time snapshot that can become stale during the compile event.
+    setTimeout(reconcileCompileOutput, 0);
   }, true);
 })();
