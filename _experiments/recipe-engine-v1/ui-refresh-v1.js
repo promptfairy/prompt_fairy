@@ -24,6 +24,13 @@
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute("content", next === LIGHT ? "#f0f8f5" : "#090e18");
 
+    const icon = document.querySelector("[data-theme-icon]");
+    if (icon) {
+      icon.setAttribute("href", next === LIGHT
+        ? "./assets/prompt-fairy-logo-mojito.png?v=release-1"
+        : "./assets/prompt-fairy-logo-arcane.png?v=release-1");
+    }
+
     const button = document.querySelector("[data-theme-toggle]");
     if (button) {
       const isLight = next === LIGHT;
@@ -74,16 +81,17 @@
     article.innerHTML = `
       <span class="card-kicker">CREDITS</span>
       <h2>一起把小精靈養大的人</h2>
-      <p class="credit-names">蕎依、琰 &amp; 執</p>
+      <p class="credit-names">琰 &amp; 執、蕎依 &amp; 顧晏川</p>
       <p>Prompt Fairy 從需求、第一版原型，到後續介面與調製流程，都是一起長出來的。Threads 只在你主動點擊時才會開啟外部頁面。</p>
-      <div class="credit-links" aria-label="製作者與 Threads">
-        <a class="credit-link" href="https://www.threads.com/@ciaooyi0423" target="_blank" rel="noopener noreferrer">
-          <span>蕎依</span><small>@ciaooyi0423 ↗</small>
-        </a>
+      <div class="credit-links" aria-label="製作成員與 Threads">
         <a class="credit-link" href="https://www.threads.com/@yenyenyamino" target="_blank" rel="noopener noreferrer">
           <span>琰</span><small>@yenyenyamino ↗</small>
         </a>
         <span class="credit-name-static"><span>執</span></span>
+        <a class="credit-link" href="https://www.threads.com/@ciaooyi0423" target="_blank" rel="noopener noreferrer">
+          <span>蕎依</span><small>@ciaooyi0423 ↗</small>
+        </a>
+        <span class="credit-name-static"><span>顧晏川</span></span>
       </div>
     `;
 

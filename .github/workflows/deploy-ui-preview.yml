@@ -1,12 +1,11 @@
-name: Deploy workbench preview
+name: Deploy Prompt Fairy
 
 on:
   push:
     branches:
-      - feature/gooey-workbench-ui
+      - agent/v19-clean-baseline
     paths:
       - "_experiments/recipe-engine-v1/**"
-      - "assets/sprite-icon.png"
       - ".github/workflows/deploy-ui-preview.yml"
   workflow_dispatch:
 
@@ -21,7 +20,7 @@ concurrency:
 
 jobs:
   deploy:
-    name: Publish fixed preview
+    name: Publish production site
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -31,13 +30,11 @@ jobs:
       - name: Check out UI branch
         uses: actions/checkout@v5
 
-      - name: Prepare preview package
+      - name: Prepare production package
         shell: bash
         run: |
-          mkdir -p _site/assets
+          mkdir -p _site
           cp -a _experiments/recipe-engine-v1/. _site/
-          cp assets/sprite-icon.png _site/assets/sprite-icon.png
-          sed -i 's#../../assets/#./assets/#g' _site/index.html
           touch _site/.nojekyll
 
       - name: Configure GitHub Pages
@@ -48,8 +45,6 @@ jobs:
         with:
           path: _site
 
-      - name: Deploy preview
+      - name: Deploy production
         id: deployment
         uses: actions/deploy-pages@v4
-
-# Redeploy after repository visibility changed to public.
