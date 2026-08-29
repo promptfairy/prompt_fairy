@@ -27,8 +27,8 @@
     const icon = document.querySelector("[data-theme-icon]");
     if (icon) {
       icon.setAttribute("href", next === LIGHT
-        ? "./assets/prompt-fairy-logo-mojito.png?v=release-1"
-        : "./assets/prompt-fairy-logo-arcane.png?v=release-1");
+        ? "./assets/prompt-fairy-favicon-mojito.png?v=release-3"
+        : "./assets/prompt-fairy-favicon-arcane.png?v=release-3");
     }
 
     const button = document.querySelector("[data-theme-toggle]");

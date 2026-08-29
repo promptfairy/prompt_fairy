@@ -183,6 +183,8 @@ p {
   flex: 0 0 auto;
   display: block;
   overflow: hidden;
+  box-sizing: border-box;
+  border: 1px solid rgba(226, 186, 103, 0.72);
   border-radius: 10px;
   background: #111a2c;
   box-shadow: 0 0 22px rgba(120, 215, 232, 0.1);
@@ -190,12 +192,14 @@ p {
 
 .brand-logo {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  inset: 1px;
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
   display: block;
   object-fit: cover;
-  transform: scale(1.08);
+  object-position: center;
+  border-radius: 8px;
+  transform: none;
 }
 
 .brand-logo-light {

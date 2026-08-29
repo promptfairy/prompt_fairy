@@ -307,6 +307,7 @@ html[data-theme="mojito"] .mobile-nav {
 }
 
 html[data-theme="mojito"] .brand-glyph {
+  border-color: rgba(177, 138, 67, 0.5);
   background: #ffffff;
   box-shadow: 0 0 20px rgba(49, 159, 156, 0.08);
 }

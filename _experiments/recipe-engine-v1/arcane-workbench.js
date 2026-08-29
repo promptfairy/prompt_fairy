@@ -1447,7 +1447,7 @@
   }
 
   function brandGlyph() {
-    return `<span class="brand-glyph" aria-hidden="true"><img class="brand-logo brand-logo-dark" src="./assets/prompt-fairy-logo-arcane.png?v=release-1" alt="" /><img class="brand-logo brand-logo-light" src="./assets/prompt-fairy-logo-mojito.png?v=release-1" alt="" /></span>`;
+    return `<span class="brand-glyph" aria-hidden="true"><img class="brand-logo brand-logo-dark" src="./assets/prompt-fairy-logo-arcane.png?v=release-3" alt="" /><img class="brand-logo brand-logo-light" src="./assets/prompt-fairy-logo-mojito.png?v=release-3" alt="" /></span>`;
   }
 
   function escapeHtml(value = "") {
