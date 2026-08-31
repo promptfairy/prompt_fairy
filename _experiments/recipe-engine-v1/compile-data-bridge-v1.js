@@ -3,10 +3,12 @@
 
   // Compatibility bridge for the Change Set v8 compile path.
   // Change Set v8 owns the final compile when a fairy change/reference/ratio is active,
-  // so restore Material Library selections and temporary additions after that compile settles.
+  // so restore selected Character Library cards, Material Library selections and temporary additions
+  // after that compile settles.
 
   const CORE_KEY = "prompt-fairy-arcane-v2";
   const CHANGE_SET_KEY = "prompt-fairy-change-set-v8";
+  const CHARACTER_MARKER = "[FAIRY CHARACTER CARDS — explicitly selected]";
   const MATERIAL_MARKER = "[FAIRY MATERIALS — explicitly selected]";
   const ADDITIONS_MARKER = "[EXTRA TOUCHES — explicitly added]";
   const IDENTITY_MARKER = "[IDENTITY PATCH]";
@@ -29,6 +31,43 @@
     return Boolean(selected.length || hasReplacement || hasActiveReference(core, local) || ratio);
   }
 
+  function slotToken(index) {
+    const code = 65 + Math.max(0, Math.min(25, index));
+    const letter = String.fromCharCode(code);
+    return `${letter}${letter}`;
+  }
+
+  function fixturePrompt(fixture) {
+    const explicit = String(fixture?.promptText || "").trim();
+    if (explicit && explicit !== fixture?.name) return explicit;
+    if (!fixture?.bodySlot) return explicit || String(fixture?.name || "").trim();
+    return `${explicit || fixture?.name || ""} on ${fixture.bodySlot}`.trim();
+  }
+
+  function selectedCharacterLines(core, local) {
+    const byId = new Map((core?.characters || []).map((character) => [String(character.id || ""), character]));
+    const localSlots = Array.isArray(local?.slots) ? local.slots : [];
+    const coreAssignments = core?.workspace?.assignments || {};
+    const slots = localSlots.length
+      ? localSlots
+      : Object.keys(coreAssignments).sort().map((token) => ({ ...coreAssignments[token], token }));
+
+    return slots.map((slot, index) => {
+      const character = byId.get(String(slot?.characterId || ""));
+      if (!character) return "";
+      const selectedFixtures = new Set(Array.isArray(slot?.fixtureIds) ? slot.fixtureIds.map(String) : []);
+      const fixtures = (Array.isArray(character.fixtures) ? character.fixtures : [])
+        .filter((fixture) => selectedFixtures.has(String(fixture.id || "")))
+        .map(fixturePrompt)
+        .filter(Boolean);
+      const payload = [String(character.basePrompt || "").trim(), ...fixtures].filter(Boolean).join("; ");
+      if (!payload) return "";
+      const token = String(slot?.token || slotToken(index));
+      const name = String(character.name || "").trim();
+      return `[${token}]${name ? ` ${name}:` : ""} ${payload}`.trim();
+    }).filter(Boolean);
+  }
+
   function selectedMaterialContents(core) {
     const ids = Array.isArray(core?.workspace?.selectedMaterialIds) ? core.workspace.selectedMaterialIds : [];
     const byId = new Map((core?.materials || []).map((material) => [String(material.id || ""), material]));
@@ -46,11 +85,15 @@
       .filter(Boolean);
   }
 
-  function missingBridgeBlocks(output, core) {
+  function missingBridgeBlocks(output, core, local) {
     const blocks = [];
+    const characters = selectedCharacterLines(core, local);
     const materials = selectedMaterialContents(core);
     const additions = additionLines(core);
 
+    if (characters.length && !output.includes(CHARACTER_MARKER)) {
+      blocks.push(`${CHARACTER_MARKER}\nSelected character cards override conflicting source character identity and appearance. Keep source pose, expression, movement, wardrobe, background, camera language and filter unless those categories were explicitly replaced elsewhere.\n${characters.join("\n")}`);
+    }
     if (materials.length && !output.includes(MATERIAL_MARKER)) {
       blocks.push(`${MATERIAL_MARKER}\n${materials.join("\n")}`);
     }
@@ -76,7 +119,7 @@
     const textarea = document.querySelector("#outputPrompt");
     if (!textarea?.value?.trim()) return;
 
-    const blocks = missingBridgeBlocks(textarea.value, core);
+    const blocks = missingBridgeBlocks(textarea.value, core, local);
     if (!blocks) return;
 
     const next = insertBeforeIdentity(textarea.value, blocks);
