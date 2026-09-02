@@ -1,0 +1,19 @@
+.feedback-button-copy {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  line-height: 1.05;
+}
+
+.feedback-button-copy strong {
+  font: inherit;
+  font-weight: 750;
+}
+
+.feedback-button-copy small {
+  font-size: 0.62rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  opacity: 0.72;
+  white-space: nowrap;
+}
