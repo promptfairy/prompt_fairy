@@ -81,6 +81,15 @@
       return;
     }
 
+    const baseCharacter = [...workspace.querySelectorAll("[data-character-slot]")]
+      .find((select) => select.value);
+    if (baseCharacter) {
+      baseCharacter.value = "";
+      baseCharacter.dispatchEvent(new Event("change", { bubbles: true }));
+      retryReset(token);
+      return;
+    }
+
     const extraSlot = workspace.querySelector("[data-v8-remove-slot]");
     if (extraSlot) {
       extraSlot.click();
@@ -119,6 +128,18 @@
       }
     }
 
+    // Re-run the core classifier once after the old workspace state is gone. This refreshes
+    // fragments/warnings from the saved prompt itself and lands the user on a clean Step 02.
+    if (!resetContext.reparsed) {
+      const parseButton = workspace.querySelector('[data-action="parse"]');
+      if (parseButton && !parseButton.disabled) {
+        resetContext.reparsed = true;
+        parseButton.click();
+        retryReset(token);
+        return;
+      }
+    }
+
     syncActionLabels();
     resetContext = null;
     workspace.querySelector(".ingredients-panel")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -128,7 +149,7 @@
     const trigger = event.target.closest?.('[data-action="open-prompt"]');
     if (!trigger) return;
     const token = ++loadToken;
-    resetContext = { attempts: 0, forcedClear: false, changeSetCleared: false };
+    resetContext = { attempts: 0, forcedClear: false, changeSetCleared: false, reparsed: false };
     // Core's bubble listener loads and re-classifies the saved prompt first.
     setTimeout(() => retryReset(token), 0);
   }, true);
