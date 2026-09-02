@@ -1,9 +1,10 @@
 (() => {
   "use strict";
 
-  // Keep the source-prompt typing path light without changing the v19 data model.
+  // Keep free-form typing paths light without changing the v19 data model.
   // Core state still updates on every keystroke; only the synchronous localStorage write
-  // and Change Set v8's expensive control rebuild are delayed until the user pauses.
+  // is delayed until the user pauses. Change Set v8's expensive source-control rebuild
+  // remains separately debounced below.
   const CORE_KEY = "prompt-fairy-arcane-v2";
   const SAVE_DELAY_MS = 140;
   const REBUILD_DELAY_MS = 180;
@@ -11,11 +12,17 @@
   const nativeSetItem = Storage.prototype.setItem;
   const nativeDocumentAddEventListener = document.addEventListener;
 
-  let sourceInputBurst = false;
+  let draftInputBurst = false;
   let pendingCoreValue = null;
   let saveTimer = 0;
   let rebuildTimer = 0;
   let registrationPatchRestored = false;
+
+  function isDraftInput(target) {
+    if (!target) return false;
+    if (["sourcePrompt", "sourceUrl", "additions", "ratio", "outputPrompt"].includes(target.id)) return true;
+    return Boolean(target.dataset?.fragmentText);
+  }
 
   function flushCore() {
     if (pendingCoreValue === null) return;
@@ -37,16 +44,17 @@
     saveTimer = setTimeout(flushCore, SAVE_DELAY_MS);
   }
 
-  // Runs before the core bubble-phase input handler so its persistState() call can be deferred.
+  // Runs before the core bubble-phase input handler so persistState() can be deferred
+  // for text-editing bursts while state in memory still updates immediately.
   nativeDocumentAddEventListener.call(document, "input", (event) => {
-    if (event.target?.id !== "sourcePrompt") return;
-    sourceInputBurst = true;
-    queueMicrotask(() => { sourceInputBurst = false; });
+    if (!isDraftInput(event.target)) return;
+    draftInputBurst = true;
+    queueMicrotask(() => { draftInputBurst = false; });
   }, true);
 
   Storage.prototype.setItem = function patchedSetItem(key, value) {
     const storageKey = String(key);
-    if (this === localStorage && storageKey === CORE_KEY && sourceInputBurst) {
+    if (this === localStorage && storageKey === CORE_KEY && draftInputBurst) {
       pendingCoreValue = String(value);
       scheduleCoreFlush();
       return;
