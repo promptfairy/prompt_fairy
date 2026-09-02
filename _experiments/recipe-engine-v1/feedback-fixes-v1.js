@@ -116,6 +116,10 @@
         retryReset(token);
         return;
       }
+      if (resetContext.overlayAttempts++ < 8) {
+        retryReset(token, 30);
+        return;
+      }
     }
 
     if (!resetContext.changeSetCleared && resetContext.forcedClear) {
@@ -149,7 +153,7 @@
     const trigger = event.target.closest?.('[data-action="open-prompt"]');
     if (!trigger) return;
     const token = ++loadToken;
-    resetContext = { attempts: 0, forcedClear: false, changeSetCleared: false, reparsed: false };
+    resetContext = { attempts: 0, overlayAttempts: 0, forcedClear: false, changeSetCleared: false, reparsed: false };
     // Core's bubble listener loads and re-classifies the saved prompt first.
     setTimeout(() => retryReset(token), 0);
   }, true);
