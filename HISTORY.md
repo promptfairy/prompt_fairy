@@ -1,0 +1,130 @@
+# Prompt Fairy｜歷程標題
+
+## agent/ui-refresh-foundation
+
+- Initial commit
+- Initial prompt fairy app
+- Merge remote-tracking branch 'origin/main'
+- docs(recipe-engine): add isolated experiment plan
+- feat(recipe-engine): add isolated experiment entry
+- style(recipe-engine): add cocktail workbench layout
+- feat(recipe-engine): add external conflict rule pack
+- feat(recipe-engine): implement local no-loss recipe compiler
+- test(recipe-engine): record local smoke-test result
+- docs(recipe-engine): add first vertical-slice changelog
+- feat: add local character cabinet and per-run accessory selection
+- style: add character cabinet and fixture selector layout
+- feat: load local character and accessory enhancements
+- chore: add one-click recipe engine launcher
+- docs: clarify no-API entry and accessory workflow
+- fix: natural accessory output and compact category tabs
+- style: add ingredient filter tabs and accessory previews
+- chore: load accessory and category logic fixes
+- docs: record accessory and category UX fixes
+- fix: use accessory type when Chinese fields store body locations
+- chore: load typed accessory location fix
+- fix(recipe): improve mixed-fragment classification and tab scroll
+- chore(recipe): load mixed-classification patch
+- docs(recipe): record stress-test follow-up fixes
+- test(recipe): record stress-test fixture notes
+- style(recipe): add low-fatigue workbench palette
+- style(recipe): enable low-fatigue UI theme
+- Redesign workbench visual hierarchy
+- Clarify workbench identity in header
+- Add fixed workbench preview deployment
+- Trigger Pages deployment after public visibility
+- Add Beam homepage and restore page navigation
+- Bust preview cache for Arcane UI assets
+- Unify Prompt Fairy workbench libraries
+- add UI refresh theme and responsive foundation
+- add theme toggle fairy light and credits hooks
+- wire UI refresh foundation into workbench
+- stabilize headers and control geometry
+- load review fix layer
+- refine header actions and mojito controls
+- simplify and extend material labels
+- wire review refinements and flexible material labels
+- stabilize material taxonomy observer
+- Fix Mojito hero title contrast
+- Keep Zhi credit independent from Prompt Fairy
+- Load Mojito hero contrast fix
+- fix(ui): restore Mojito hero metadata contrast
+- fix(copy): standardize second-person wording to 你
+- Restore change-set intent filter without altering refreshed layout
+- Restore intent-based change filtering on refreshed workspace
+- Load restored change-set intent filter on refreshed UI
+- Restore Change Set as real replacement workflow
+- Add replacement-first Change Set UI
+- Switch Prompt Fairy to replacement-first Change Set v3
+- Add Change Set v4 reference-first compiler
+- Load Change Set v4 reference-first compiler
+- Refresh v4 loader after sync fix
+- Apply corrected Change Set v4 sync behavior
+- Fix Change Set v4 encoding and reference sync
+- Refine Change Set v5 patch order and style authority
+- Add reference-first gender scrub for source prompts
+- Load reference-first gender scrub overlay
+- Fix AA and BB gender branch cleanup
+- Align inner page shells and library header actions
+- Load stable inner-page alignment fixes
+- Fix material favorite star alignment
+- fix(ui): rebalance desktop library and workspace headers
+- chore(ui): load desktop balance review pass
+- fix(ui): lock desktop pages to workspace rails
+- fix(ui): load stable desktop rail layout
+- ui: unify inner page header anchors
+- ui: relocate library search into header utility rail
+- ui: load v7 unified header layout
+- ui: lock one shared inner-page header frame
+- ui: place search and filters into shared header slots
+- ui: activate shared header frame v8
+- ui: stabilize scrollbar gutter across inner pages
+- ui: activate scrollbar gutter stabilizer v9
+- workspace: add simple fairy change-set styles
+- workspace: return change set to six-category fairy flow
+- workspace: activate six-category fairy change set
+- workspace: add replacement field guidance
+- workspace: style replacement field guidance
+- workspace: activate guided replacement examples
+- UI: improve Traditional Chinese readability with GenSen Rounded
+- UI: load Chinese readability pass after workspace layers
+- UI review v11: align change-set reminders and clear action
+- Load UI review v11
+- feat: add dynamic character slots foundation
+- style: keep dynamic character slots aligned
+- fix: correct three-quarter body wording
+- feat: wire dynamic character slots review build
+- Preserve character slot labels when clearing middle roles
+- Load stable character slot clearing behavior
+- Preserve advanced panel state across workspace rerenders
+- Keep advanced semantic index open while filtering
+- feat: add local preview images for prompts and characters
+- style: add local image previews without changing library grid
+- feat: bootstrap local image previews in review build
+- style: keep empty image slots compact
+- Refine local image previews with character avatars
+- Refine local image preview layout
+- Enable local image previews
+- Add draft Prompt Fairy release evolution notes
+- Add early layout evolution note for release story
+- style: refine workspace navigation and utility tones
+- style: load UI review fixes v13
+- fix: rebalance Mojito home landing page
+- chore: load home review fixes v14
+- Load Mojito QA review v15
+- Add Mojito QA review v15
+- Match nav cells to widest reviewed item
+- Record Mojito QA review v15
+- Align shared navigation and library header notices
+- Load Prompt Fairy UI review v16
+- Record shared chrome and library header QA lessons
+- Fix library image notice layout without affecting work area
+- Load library notice recovery pass
+- fix: place local image notice inside shared page header
+- fix: unify library header notice and action heights
+- fix: load v18 shared header recovery
+- Align nav and header action widths
+- Load UI review fixes v19
+- Restore materials and additions in fairy compile pipeline
+- Load compile data bridge before change-set v8
+- Record compile bridge fix and pre-release consolidation check
