@@ -1,0 +1,53 @@
+# Prompt Fairy｜歷程標題
+
+## feature/typography-yupearl-nunito-v1
+
+- Initial commit
+- Initial prompt fairy app
+- Merge remote-tracking branch 'origin/main'
+- docs(recipe-engine): add isolated experiment plan
+- feat(recipe-engine): add isolated experiment entry
+- style(recipe-engine): add cocktail workbench layout
+- feat(recipe-engine): add external conflict rule pack
+- feat(recipe-engine): implement local no-loss recipe compiler
+- test(recipe-engine): record local smoke-test result
+- docs(recipe-engine): add first vertical-slice changelog
+- feat: add local character cabinet and per-run accessory selection
+- style: add character cabinet and fixture selector layout
+- feat: load local character and accessory enhancements
+- chore: add one-click recipe engine launcher
+- docs: clarify no-API entry and accessory workflow
+- fix: natural accessory output and compact category tabs
+- style: add ingredient filter tabs and accessory previews
+- chore: load accessory and category logic fixes
+- docs: record accessory and category UX fixes
+- fix: use accessory type when Chinese fields store body locations
+- chore: load typed accessory location fix
+- fix(recipe): improve mixed-fragment classification and tab scroll
+- chore(recipe): load mixed-classification patch
+- docs(recipe): record stress-test follow-up fixes
+- test(recipe): record stress-test fixture notes
+- style(recipe): add low-fatigue workbench palette
+- style(recipe): enable low-fatigue UI theme
+- Redesign workbench visual hierarchy
+- Clarify workbench identity in header
+- Add fixed workbench preview deployment
+- Trigger Pages deployment after public visibility
+- Add Beam homepage and restore page navigation
+- Bust preview cache for Arcane UI assets
+- Unify Prompt Fairy product shell
+- Clean unified shell templates
+- Add YuPearl and Nunito typography override layer
+- Enable typography system override
+- Fix mixed-language rendering and rebalance YuPearl typography
+- Use YuPearl Light, force Nunito Latin rendering, and enlarge library titles
+- Bump typography cache version
+- Unify workspace header structure with library pages
+- Unify workspace and settings page typography and shell width
+- Load unified workspace shell and refresh typography cache
+- Fix YuPearl small-text rendering and unify page header height
+- Add library editing, reliable dialog close, and bilingual material categories
+- Load UI fixes for editing, dialogs, bilingual categories, and header spacing
+- Try YuPearl ExtraLight for reading text and add toast fade state
+- Auto-dismiss toasts and route the app directly to Workspace
+- Load ExtraLight typography trial and direct-to-workspace runtime fixes
